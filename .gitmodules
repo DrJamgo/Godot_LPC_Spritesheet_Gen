@@ -1,4 +1,5 @@
-[submodule "sanderfrenken_lpc_ss_char_gen"]
-	path = sanderfrenken_lpc_ss_char_gen
-	url = https://github.com/sanderfrenken/Universal-LPC-Spritesheet-Character-Generator.git
+[submodule "lpc_ss_char_gen"]
+	path = lpc_ss_char_gen
+	url = https://github.com/DrJamgo/LPC-SpriteSheet-Gen-Godot.git
+	branch = master
 	shallow = true

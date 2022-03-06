@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://res/patients/LPCFemalePatient.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://addons/lpc_spritesheet_gen/LPCSprite.gd" type="Script" id=2]
+
+[node name="LPCSprite" type="AnimatedSprite"]
+frames = ExtResource( 1 )
+animation = "idle_left"
+playing = true
+centered = false
+offset = Vector2( -32, -60 )
+script = ExtResource( 2 )
+
+[connection signal="frame_changed" from="." to="." method="_on_LPCSprite_frame_changed"]

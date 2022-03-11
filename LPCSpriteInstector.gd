@@ -4,6 +4,8 @@ extends EditorInspectorPlugin
 var DockScene = preload("dock.tscn")
 var json_files = null
 
+var editor_interface : EditorInterface
+
 func _init():
     json_files = DockScene.instance().read_json_files()
 
@@ -17,7 +19,9 @@ func parse_property(object : Object, type : int, path : String, hint : int, hint
     #print("parse_property " + String(type) + ", " + path + ", " + String(usage) + ", ")
     if type == TYPE_OBJECT and path == 'frames' and (object.frames as LPCSpriteBlueprint):
         var dockinstance = DockScene.instance()
+        dockinstance.editor_interface = editor_interface
         dockinstance.set_json_files(json_files)
         dockinstance.set_blueprint(object.frames)
         add_custom_control(dockinstance)    
     return false
+

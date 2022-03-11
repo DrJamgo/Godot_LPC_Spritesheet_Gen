@@ -33,7 +33,7 @@ func _enter_tree():
     blueprint._set_atlas(null)
     baked = _add_layer('baked', blueprint.get_baked())
     baked.material = ShaderMaterial.new()
-    baked.material.shader = preload("res://res/outline.shader")
+    baked.material.shader = preload("res://addons/lpc_spritesheet_gen/outline.shader")
     baked.material.set_shader_param("outLineSize", Vector2(1,1) / Vector2(texture.get_size()))
     baked.material.set_shader_param("outLineColor", Color(0,0,0,0))
     baked.use_parent_material = false

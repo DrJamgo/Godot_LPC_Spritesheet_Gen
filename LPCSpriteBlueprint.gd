@@ -5,7 +5,7 @@ class_name LPCSpriteBlueprint, 'lpc_icon_spec.png'
 export(String, 'male', 'female', 'child', 'pregnant', 'muscular') var body_type := 'male'
 export(Array, Resource) var layers 
 
-var rootpath = self.get_script().get_path().get_base_dir() + "/lpc_chars"
+var rootpath = self.get_script().get_path().get_base_dir() + "/lpc_spritesheets"
 var baked_texture := ImageTexture.new()
 var is_changed = true
 

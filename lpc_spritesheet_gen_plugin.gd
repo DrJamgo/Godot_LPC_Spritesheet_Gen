@@ -6,6 +6,7 @@ var inspector_plugin
 func _enter_tree():
     var LPCSpiteInspector = load("res://addons/lpc_spritesheet_gen/LPCSpriteInstector.gd")
     inspector_plugin = LPCSpiteInspector.new()
+    inspector_plugin.editor_interface = get_editor_interface()
 
     add_inspector_plugin(inspector_plugin)
 

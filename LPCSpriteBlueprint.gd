@@ -5,7 +5,7 @@ class_name LPCSpriteBlueprint, 'lpc_icon_spec.png'
 export(String, 'male', 'female', 'child', 'pregnant', 'muscular') var body_type := 'male'
 export(Array, Resource) var layers 
 
-var rootpath = self.get_script().get_path().get_base_dir() + "/lpc_spritesheets"
+var rootpath = "res://assets/lpc_spritesheets/"
 var baked_texture := ImageTexture.new()
 var is_changed = true
 
@@ -32,7 +32,7 @@ func add_layers(json_data : Dictionary, _variant : String):
         new_layer.type_name = json_data.type_name
         new_layer.zorder = json_data[layername].zPos
         new_layer.rel_path = (json_data[layername][body_type] + _variant + ".png").replace(' ','_')
-        new_layer.abs_path = rootpath + "/spritesheets/" + new_layer.rel_path
+        new_layer.abs_path = rootpath + new_layer.rel_path
         new_layer.variant = _variant
         var index = _get_index_by_z(new_layer.zorder)
         layerPos.append(index)

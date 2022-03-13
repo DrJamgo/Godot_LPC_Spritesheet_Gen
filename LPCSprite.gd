@@ -29,7 +29,7 @@ func _add_layer(name : String, texture : Texture) -> Sprite:
 # Called when the node enters the scene tree for the first time.
 func _enter_tree():
     var blueprint : LPCSpriteBlueprint = frames
-    var texture = blueprint.get_textures()[0]
+    var texture = preload("res://addons/lpc_spritesheet_gen/lpc_char_ss_template.png")
     blueprint._set_atlas(null)
     baked = _add_layer('baked', blueprint.get_baked())
     baked.material = ShaderMaterial.new()

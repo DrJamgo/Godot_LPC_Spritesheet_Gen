@@ -6,7 +6,7 @@ export(String, 'male', 'female', 'child', 'pregnant', 'muscular') var body_type 
 export(Array, Resource) var layers 
 
 var rootpath = "res://assets/lpc_spritesheets/"
-var baked_texture := ImageTexture.new()
+var baked_texture := ImageTexture.new() setget , get_baked
 var is_changed = true
 
 func _init():
@@ -20,24 +20,12 @@ func _get_index_by_z(z : int):
             return i
     return layers.size()
 
-func add_layers(json_data : Dictionary, _variant : String):
-    var layerIdx = 1
+func add_layers(_layers : Array):
     var layerPos = []
-    while ('layer_' + String(layerIdx)) in json_data:
-        var layername = 'layer_' + String(layerIdx)
-        var new_layer = LPCSpriteLayer.new()
-        new_layer.json_data = json_data
-        new_layer.body = body_type
-        new_layer.name = json_data.name
-        new_layer.type_name = json_data.type_name
-        new_layer.zorder = json_data[layername].zPos
-        new_layer.rel_path = (json_data[layername][body_type] + _variant + ".png").replace(' ','_')
-        new_layer.abs_path = rootpath + new_layer.rel_path
-        new_layer.variant = _variant
-        var index = _get_index_by_z(new_layer.zorder)
+    for layer in _layers:
+        var index = _get_index_by_z(layer.zorder)
         layerPos.append(index)
-        layers.insert(index, new_layer)
-        layerIdx += 1
+        layers.insert(index, layer)
     is_changed = true
     emit_changed()
     #_set_atlas(null) # << clear default texture atlas

@@ -1,5 +1,4 @@
 extends AnimatedSprite
-
 class_name LPCSprite, "lpc_icon.png"
 
 var dir = 'down'
@@ -15,14 +14,14 @@ signal animation_trigger(anim)
 func _init():
     pass
 
-func _add_layer(name : String, texture : Texture) -> Sprite:
+func _add_layer(layer : LPCSpriteLayer) -> Sprite:
     var new_sprite = Sprite.new()
     var new_atlas := AtlasTexture.new()
-    new_atlas.atlas = texture
+    new_atlas.atlas = layer.texture
     new_sprite.set_texture(new_atlas)
     new_sprite.offset = self.offset
     new_sprite.centered = false
-    new_sprite.set_name(name)
+    new_sprite.set_name(layer.name)
     add_child(new_sprite)
     return new_sprite
 
@@ -31,7 +30,7 @@ func _enter_tree():
     var blueprint : LPCSpriteBlueprint = frames
     var texture = preload("res://addons/lpc_spritesheet_gen/lpc_char_ss_template.png")
     blueprint._set_atlas(null)
-    baked = _add_layer('baked', blueprint.get_baked())
+    baked = _add_layer(blueprint.get_baked())
     baked.material = ShaderMaterial.new()
     baked.material.shader = preload("res://addons/lpc_spritesheet_gen/outline.shader")
     baked.material.set_shader_param("outLineSize", Vector2(1,1) / Vector2(texture.get_size()))
@@ -41,7 +40,7 @@ func _enter_tree():
     set_highlight()
     
     for layer in blueprint.layers:
-        _add_layer(layer.type_name, layer.texture)
+        _add_layer(layer)
 
 func set_outline(color = Color(0,0,0,0)):
     baked.material.set_shader_param("outLineColor", color)

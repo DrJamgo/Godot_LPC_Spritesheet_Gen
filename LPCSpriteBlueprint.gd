@@ -6,7 +6,7 @@ export(String, 'male', 'female', 'child', 'pregnant', 'muscular') var body_type 
 export(Array, Resource) var layers 
 
 var rootpath = "res://assets/lpc_spritesheets/"
-var baked_texture := ImageTexture.new() setget , get_baked
+var baked_layer := LPCSpriteLayer.new() setget set_baked, get_baked 
 var is_changed = true
 
 func _init():
@@ -56,6 +56,9 @@ func _set_atlas(atlas : Texture):
             set_frame(anim.name, idx, frame)
 
 func _bake():
+    var texture = ImageTexture.new()
+    baked_layer.texture = texture
+    baked_layer.name = "baked"
     if layers.size() > 0:
         var image = Image.new()
         var layer0 : Texture = self.layers[0].get_texture()
@@ -64,15 +67,14 @@ func _bake():
             var layer = layers[z].get_texture()
             print(String((layer as Texture).get_data().get_format()))
             image.blend_rect(layer.get_data(), Rect2(Vector2(0,0), layer.get_size()), Vector2(0,0))
-        baked_texture.create_from_image(image, 0)
-        print(baked_texture.to_string())
+        texture.create_from_image(image)
         
 func get_baked():
-    if is_changed:
+    if not baked_layer.texture or is_changed:
         is_changed = false
         _bake()
-    return baked_texture
+    return baked_layer
 
-func set_baked(baked_texture : Texture):
-    _set_atlas(baked_texture)
+func set_baked(baked_layer : LPCSpriteLayer):
+    _set_atlas(baked_layer.texture)
     emit_changed()

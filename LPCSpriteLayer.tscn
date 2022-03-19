@@ -5,11 +5,11 @@
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
 shader = ExtResource( 1 )
-shader_param/outLineSize = Vector2( 0.000744, 0.000744 )
+shader_param/outLineSize = Vector2( 1, 1 )
 shader_param/outLineColor = Plane( 1, 1, 1, 0 )
 shader_param/mixColor = Plane( 1, 1, 1, 0 )
 
-[sub_resource type="StreamTexture" id=2]
+[sub_resource type="ImageTexture" id=4]
 
 [sub_resource type="GDScript" id=3]
 script/source = "tool
@@ -38,7 +38,7 @@ func flash(color : Color, duration : float):
 [node name="LPCSpriteLayer" type="Sprite"]
 material = SubResource( 1 )
 position = Vector2( -1, 0 )
-texture = SubResource( 2 )
+texture = SubResource( 4 )
 centered = false
 offset = Vector2( -32, -60 )
 region_enabled = true

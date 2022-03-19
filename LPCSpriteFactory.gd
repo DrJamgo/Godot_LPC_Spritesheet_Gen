@@ -1,4 +1,4 @@
-extends Resource
+extends Node
 class_name LPCSpriteFactory
 
 var all_json_list := {}
@@ -107,13 +107,6 @@ func get_lpc_layers(base : String, variant : String) -> Array:
 func load_texture(layer : LPCSpriteLayer) -> bool:
     var resource_exists = layer.load_texture()
     if not resource_exists:
-        # load image texture from Disk
-        #var image = Image.new()
-        #image.load(rootpath + 'spritesheets/' + layer.rel_path)
-        #var texture = ImageTexture.new()
-        #texture.create_from_image(image)
-        #layer.texture = texture
-        
         # copy file to new location
         var dir = Directory.new()
         dir.make_dir_recursive(layer.abs_path.get_base_dir())

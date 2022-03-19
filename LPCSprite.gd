@@ -1,53 +1,59 @@
+tool
 extends AnimatedSprite
 class_name LPCSprite, "lpc_icon.png"
 
-var dir = 'down'
-var anim = 'idle' setget set_anim
-var angle = 0
+export(String, 'down','left','up','right') var dir = 'down' setget set_dir
+export(String, 'idle', 'walk', 'cast', 'slash', 'thrust', 'hurt') var anim = 'idle' setget set_anim
 
 var outline
 var highlight
-var baked 
 
 signal animation_trigger(anim)
 
-func _init():
-    pass
+func add_layers(layers : Array) -> Array:
+    var sprite_array := Array()
+    for layer in layers:
+        sprite_array.append(_add_layer(layer))
+    _on_LPCSprite_frame_changed()
+    return sprite_array
+
+func _load_layers():
+    print(name + "_load_layers")
+    for c in get_children():
+        if (c as Sprite):
+            remove_child(c)
+    var blueprint : LPCSpriteBlueprint = frames
+    blueprint._set_atlas(null)
+    for layer in blueprint.layers:
+        var sprite = _add_layer(layer)
+    _on_LPCSprite_frame_changed()
 
 func _add_layer(layer : LPCSpriteLayer) -> Sprite:
-    var new_sprite = Sprite.new()
-    var new_atlas := AtlasTexture.new()
-    new_atlas.atlas = layer.texture
-    new_sprite.set_texture(new_atlas)
-    new_sprite.offset = self.offset
-    new_sprite.centered = false
-    new_sprite.set_name(layer.name)
+    var new_sprite = preload("res://addons/lpc_spritesheet_gen/LPCSpriteLayer.tscn").instance()
+    new_sprite.set_atlas(layer.texture)
+    new_sprite.set_name(layer.type_name)
     add_child(new_sprite)
     return new_sprite
 
-# Called when the node enters the scene tree for the first time.
 func _enter_tree():
-    var blueprint : LPCSpriteBlueprint = frames
-    var texture = preload("res://addons/lpc_spritesheet_gen/lpc_char_ss_template.png")
-    blueprint._set_atlas(null)
-    baked = _add_layer(blueprint.get_baked())
-    baked.material = ShaderMaterial.new()
-    baked.material.shader = preload("res://addons/lpc_spritesheet_gen/outline.shader")
-    baked.material.set_shader_param("outLineSize", Vector2(1,1) / Vector2(texture.get_size()))
-    baked.material.set_shader_param("outLineColor", Color(0,0,0,0))
-    baked.use_parent_material = false
+    frames.connect("changed", self, "_load_layers")
+    _load_layers()
     set_outline()
     set_highlight()
     
-    for layer in blueprint.layers:
-        _add_layer(layer)
+func _exit_tree():
+    frames.disconnect("changed", self, "_load_layers")
+    pass
 
 func set_outline(color = Color(0,0,0,0)):
-    baked.material.set_shader_param("outLineColor", color)
+    var body = get_node('body')
+    if body:
+        body.material.set_shader_param("outLineColor", color)
 
 func set_highlight(color = Color(0,0,0,0)):
-    highlight = color
-    baked.material.set_shader_param("mixColor", color)
+    var body = get_node('body')
+    if body:
+        body.material.set_shader_param("mixColor", color)
 
 func move(direction : Vector2):
     var speed = direction.length()
@@ -64,8 +70,10 @@ func move(direction : Vector2):
     else:
         anim = 'idle'
 
-func set_dir(direction : Vector2):
-    dir = _angle_to_dir(direction.angle())
+func set_dir(direction):
+    if typeof(direction) == TYPE_VECTOR2:
+        direction = _angle_to_dir(direction.angle())
+    dir = direction
 
 func set_anim(_anim):
     if anim != _anim:
@@ -89,8 +97,14 @@ func _play(_anim):
     play(_anim)
     _on_LPCSprite_frame_changed()
 
+var last_frames = null
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+    if last_frames and last_frames != frames:
+        frames.connect("changed", self, "_load_layers")
+        _load_layers()
+    last_frames = frames
     var anim_name = anim + "_" + dir
     if animation != anim_name:
         if anim == 'hurt':
@@ -98,12 +112,10 @@ func _process(delta):
             _play('hurt_down')
         else:
             _play(anim_name)
-    pass
 
 func _on_LPCSprite_frame_changed():
     var blueprint : LPCSpriteBlueprint = (frames as LPCSpriteBlueprint)
     var tex = blueprint.get_frame(self.animation, self.frame)
     for sprite in get_children():
-        (sprite.texture as AtlasTexture).region = tex.region
-        (sprite.texture as AtlasTexture).margin = tex.margin
+        sprite.copy_atlas_rects(tex)
 

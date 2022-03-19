@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://addons/lpc_spritesheet_gen/sprite_layer.shader" type="Shader" id=1]
+
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 1 )
+shader_param/outLineSize = Vector2( 0.000744, 0.000744 )
+shader_param/outLineColor = Plane( 1, 1, 1, 0 )
+shader_param/mixColor = Plane( 1, 1, 1, 0 )
+
+[sub_resource type="StreamTexture" id=2]
+
+[sub_resource type="GDScript" id=3]
+script/source = "tool
+extends Sprite
+
+func set_atlas(tex : Texture):
+    texture = tex
+    
+func copy_atlas_rects(parent_texture : AtlasTexture):
+    region_rect = parent_texture.region
+    #(texture as AtlasTexture).margin = parent_texture.margin
+
+func set_highlight(color : Color):
+    (material as ShaderMaterial).set_shader_param(\"mixColor\", color)
+
+func flash(color : Color, duration : float):
+    $Tween.interpolate_method(self, \"set_highlight\", color, Color(1,1,1,0), duration, Tween.TRANS_QUAD, Tween.EASE_IN)
+    $Tween.start()
+"
+
+[node name="LPCSpriteLayer" type="Sprite"]
+material = SubResource( 1 )
+position = Vector2( -1, 0 )
+texture = SubResource( 2 )
+centered = false
+offset = Vector2( -32, -60 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 64, 64 )
+script = SubResource( 3 )
+
+[node name="Tween" type="Tween" parent="."]

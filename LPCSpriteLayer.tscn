@@ -25,8 +25,13 @@ func copy_atlas_rects(parent_texture : AtlasTexture):
 func set_highlight(color : Color):
     (material as ShaderMaterial).set_shader_param(\"mixColor\", color)
 
+func set_outline(color : Color):
+    (material as ShaderMaterial).set_shader_param(\"outLineColor\", color)
+
 func flash(color : Color, duration : float):
     $Tween.interpolate_method(self, \"set_highlight\", color, Color(1,1,1,0), duration, Tween.TRANS_QUAD, Tween.EASE_IN)
+    color.a /= 2.0
+    $Tween.interpolate_method(self, \"set_outline\", color, Color(1,1,1,0), duration / 2.0, Tween.TRANS_QUAD, Tween.EASE_IN)
     $Tween.start()
 "
 

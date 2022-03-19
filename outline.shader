@@ -11,9 +11,10 @@ void fragment()
     bool doReplace = false;
     if (tcol.a < 1.0)
     {
-        for(float y = -outLineSize.y; y <= outLineSize.y; y+=outLineSize.y) {
-            for(float x = -outLineSize.x; x <= outLineSize.x; x+=outLineSize.x) {
-                vec4 c = texture(TEXTURE, UV + vec2(x,y));
+        for(float y = -1.0; y <= 1.0; y+=1.0) {
+            for(float x = -1.0; x <= 1.0; x+=1.0) {
+                vec2 offset = vec2(x,y) * outLineSize;
+                vec4 c = texture(TEXTURE, UV + offset);
                 if(c.a  == 1.0 && any(notEqual(c.rgb, vec3(0.0, 0.0, 0.0)))) {
                     doReplace = true;
                     break;

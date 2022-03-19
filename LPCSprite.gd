@@ -10,6 +10,9 @@ var highlight
 
 signal animation_trigger(anim)
 
+func add_blueprint(blueprint : LPCSpriteBlueprint) -> Array:
+    return add_layers(blueprint.layers)
+
 func add_layers(layers : Array) -> Array:
     var sprite_array := Array()
     for layer in layers:

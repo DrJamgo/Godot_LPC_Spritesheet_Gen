@@ -32,6 +32,7 @@ func _add_layer(layer : LPCSpriteLayer) -> Sprite:
     var new_sprite = preload("res://addons/lpc_spritesheet_gen/LPCSpriteLayer.tscn").instance()
     new_sprite.set_atlas(layer.texture)
     new_sprite.set_name(layer.type_name)
+    new_sprite.offset = self.offset
     add_child(new_sprite)
     return new_sprite
 

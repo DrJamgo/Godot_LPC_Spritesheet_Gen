@@ -50,14 +50,12 @@ func _exit_tree():
     pass
 
 func set_outline(color = Color(0,0,0,0)):
-    var body = get_node('body')
-    if body:
-        body.material.set_shader_param("outLineColor", color)
+    if has_node("body"):
+        get_node("body").material.set_shader_param("outLineColor", color)
 
 func set_highlight(color = Color(0,0,0,0)):
-    var body = get_node('body')
-    if body:
-        body.material.set_shader_param("mixColor", color)
+    if has_node("body"):
+        get_node("body").material.set_shader_param("mixColor", color)
 
 func move(direction : Vector2):
     var speed = direction.length()

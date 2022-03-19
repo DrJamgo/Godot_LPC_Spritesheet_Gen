@@ -7,17 +7,14 @@ var json_files = null
 var editor_interface : EditorInterface
 
 func can_handle(object : Object):
-    if(object as LPCSprite):
+    if(object as LPCSpriteBlueprint):
         return true
     else:
         return false
 
-func parse_property(object : Object, type : int, path : String, hint : int, hint_text : String, usage : int):
-    #print("parse_property " + String(type) + ", " + path + ", " + String(usage) + ", ")
-    if type == TYPE_OBJECT and path == 'frames' and (object.frames as LPCSpriteBlueprint):
+func parse_begin(object):
+    if (object as LPCSpriteBlueprint):
         var dockinstance = DockScene.instance()
         dockinstance.editor_interface = editor_interface
-        dockinstance.set_blueprint(object.frames)
-        add_custom_control(dockinstance)    
-    return false
-
+        dockinstance.set_blueprint(object)
+        add_custom_control(dockinstance)

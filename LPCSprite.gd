@@ -10,6 +10,11 @@ var highlight
 
 signal animation_trigger(anim)
 
+func _get_configuration_warning() -> String:
+    if not (frames as LPCSpriteBlueprint):
+        return "'frames' property must be of type LPCSpriteBlueprint"
+    return ""
+
 func add_blueprint(blueprint : LPCSpriteBlueprint) -> Array:
     return add_layers(blueprint.layers)
 
@@ -26,9 +31,12 @@ func _load_layers():
         if (c as Sprite):
             remove_child(c)
     var blueprint : LPCSpriteBlueprint = frames
-    blueprint._set_atlas(null)
+    var has_layers = false
     for layer in blueprint.layers:
         var sprite = _add_layer(layer)
+        has_layers = true
+    if has_layers:
+        blueprint._set_atlas(null)
     _on_LPCSprite_frame_changed()
 
 func _add_layer(layer : LPCSpriteLayer) -> Sprite:
@@ -37,6 +45,7 @@ func _add_layer(layer : LPCSpriteLayer) -> Sprite:
     new_sprite.set_name(layer.type_name)
     new_sprite.offset = self.offset
     add_child(new_sprite)
+    (frames as LPCSpriteBlueprint)._set_atlas(null)
     return new_sprite
 
 func _enter_tree():
@@ -51,11 +60,11 @@ func _exit_tree():
 
 func set_outline(color = Color(0,0,0,0)):
     if has_node("body"):
-        get_node("body").material.set_shader_param("outLineColor", color)
+        get_node("body").set_outline(color)
 
 func set_highlight(color = Color(0,0,0,0)):
     if has_node("body"):
-        get_node("body").material.set_shader_param("mixColor", color)
+        get_node("body").set_highlight(color)
 
 func move(direction : Vector2):
     var speed = direction.length()
@@ -72,12 +81,17 @@ func move(direction : Vector2):
     else:
         anim = 'idle'
 
+func reset():
+    stop()
+    frame = 0
+
 func set_dir(direction):
     if typeof(direction) == TYPE_VECTOR2:
         direction = _angle_to_dir(direction.angle())
     dir = direction
 
 func set_anim(_anim):
+    playing = true
     if anim != _anim:
         anim = _anim
         speed_scale = 1.0
@@ -120,4 +134,11 @@ func _on_LPCSprite_frame_changed():
     var tex = blueprint.get_frame(self.animation, self.frame)
     for sprite in get_children():
         sprite.copy_atlas_rects(tex)
-
+    if anim == "slash" and self.frame == 4:
+        emit_signal("animation_trigger", anim)
+    elif anim == "thrust" and self.frame == 5:
+        emit_signal("animation_trigger", anim)
+    elif anim == "shoot" and self.frame == 9:
+        emit_signal("animation_trigger", anim)
+    elif anim == "cast" and self.frame == 5:
+        emit_signal("animation_trigger", anim)

@@ -18,3 +18,8 @@ func parse_begin(object):
         dockinstance.editor_interface = editor_interface
         dockinstance.set_blueprint(object)
         add_custom_control(dockinstance)
+
+func parse_property(object, type, path, hint, hint_text, usage):
+    if path == "layers":
+        return true
+    return false

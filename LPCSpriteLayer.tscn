@@ -20,7 +20,6 @@ func set_atlas(tex : Texture):
     
 func copy_atlas_rects(parent_texture : AtlasTexture):
     region_rect = parent_texture.region
-    #(texture as AtlasTexture).margin = parent_texture.margin
 
 func set_highlight(color : Color):
     (material as ShaderMaterial).set_shader_param(\"mixColor\", color)
@@ -28,10 +27,16 @@ func set_highlight(color : Color):
 func set_outline(color : Color):
     (material as ShaderMaterial).set_shader_param(\"outLineColor\", color)
 
-func flash(color : Color, duration : float):
-    $Tween.interpolate_method(self, \"set_highlight\", color, Color(1,1,1,0), duration, Tween.TRANS_QUAD, Tween.EASE_IN)
-    color.a /= 2.0
-    $Tween.interpolate_method(self, \"set_outline\", color, Color(1,1,1,0), duration / 2.0, Tween.TRANS_QUAD, Tween.EASE_IN)
+func set_outlineSize(size : float):
+    (material as ShaderMaterial).set_shader_param(\"outLineSize\", Vector2(size, size))
+
+func effect_materialize(color : Color, duration : float):
+    $Tween.interpolate_method(self, \"set_highlight\", color, Color(1,1,1,0), duration, Tween.TRANS_LINEAR, Tween.EASE_IN)
+    color.a /= 0.5
+    var color_to = color
+    color_to.a = 0
+    $Tween.interpolate_method(self, \"set_outline\", color, color_to, duration, Tween.TRANS_QUAD, Tween.EASE_OUT)
+    $Tween.interpolate_method(self, \"set_outlineSize\", 2.0, 1.0, duration, Tween.TRANS_QUAD, Tween.EASE_OUT)    
     $Tween.start()
 "
 

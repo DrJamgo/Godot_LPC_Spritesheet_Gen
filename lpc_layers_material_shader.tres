@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[ext_resource path="res://addons/lpc_spritesheet_gen/sprite_layer.shader" type="Shader" id=1]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource( 1 )
+shader_param/outLineSize = Vector2( 1, 1 )
+shader_param/outLineColor = Color( 0, 0, 0, 0 )
+shader_param/mixColor = Color( 0, 0, 0, 0 )
+shader_param/glowColor = Plane( 1, 1, 1, 0 )
+shader_param/glowRadius = Vector2( 1, 1 )

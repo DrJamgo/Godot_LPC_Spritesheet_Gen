@@ -1,7 +1,7 @@
 tool
 extends EditorInspectorPlugin
 
-var DockScene = preload("dock.tscn")
+var DockScene = preload("inspector_plugin_dock.tscn")
 var json_files = null
 
 var editor_interface : EditorInterface

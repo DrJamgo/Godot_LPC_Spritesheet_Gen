@@ -2,6 +2,8 @@ tool
 extends Sprite
 class_name LPCSpriteLayer
 
+var blueprint_layer : LPCSpriteBlueprintLayer
+
 func _init():
 	region_enabled = true
 	centered = false

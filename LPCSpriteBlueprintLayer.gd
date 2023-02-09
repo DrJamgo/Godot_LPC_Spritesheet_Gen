@@ -7,6 +7,7 @@ export(Dictionary) var json_data = {}
 export(String) var body := "male"     # Type of Body
 export(String) var name := "Template" # From JSON Data
 export(String) var type_name := "body" # From JSON Data
+export(String) var oversize_animation = null
 export(String) var variant = "0" # From Selection
 export(String) var abs_path := ""
 export(String) var rel_path := ""

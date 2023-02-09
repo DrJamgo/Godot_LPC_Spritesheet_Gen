@@ -44,10 +44,12 @@ func _load_layers():
 	_on_LPCSprite_frame_changed()
 
 func _add_layer(layer : LPCSpriteBlueprintLayer) -> Sprite:
-	var new_sprite = LPCSpriteLayer.new()
+	var new_sprite = LPCSpriteLayer.new() if (layer.oversize_animation == null) else LPCSpriteLayerOversize.new()
 	new_sprite.set_atlas(layer.texture)
 	new_sprite.set_name(layer.type_name)
-	new_sprite.offset = self.offset
+	new_sprite.offset += self.offset
+	new_sprite.centered = centered
+	new_sprite.blueprint_layer = layer
 	add_child(new_sprite)
 	(frames as LPCSpriteBlueprint)._set_atlas(null)
 	return new_sprite

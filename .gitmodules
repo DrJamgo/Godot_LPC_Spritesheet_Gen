@@ -1,5 +1,0 @@
-[submodule "sanderfrenken_lpc_ss_char_gen"]
-	path = lpc_spritesheets
-	url = https://github.com/DrJamgo/LPC-SpriteSheet-Gen-Godot.git
-	branch = sparse
-	shallow = true

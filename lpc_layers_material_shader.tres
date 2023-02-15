@@ -6,7 +6,7 @@
 resource_local_to_scene = true
 shader = ExtResource( 1 )
 shader_param/outLineSize = Vector2( 1, 1 )
-shader_param/outLineColor = Color( 0, 0, 0, 0 )
+shader_param/outLineColor = Color( 1, 0, 0, 0 )
 shader_param/mixColor = Color( 0, 0, 0, 0 )
 shader_param/glowColor = Plane( 1, 1, 1, 0 )
 shader_param/glowRadius = Vector2( 1, 1 )

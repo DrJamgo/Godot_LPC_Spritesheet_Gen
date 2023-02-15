@@ -47,7 +47,7 @@ void fragment()
             tcol = mix(tcol.rgba, outLineColor.rgba, outLineColor.a);
         }
         else {
-            discard;
+            //discard;
         }
             
     }

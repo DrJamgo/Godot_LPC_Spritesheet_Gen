@@ -20,23 +20,46 @@ func set_blueprint(_blueprint : LPCSpriteBlueprint):
 
 func _enter_tree():
 	if !blueprint:
-		set_blueprint(LPCSpriteBlueprint.new())   
+		set_blueprint(LPCSpriteBlueprint.new())
 
-func _add_layers_item(index : int, layer : LPCSpriteBlueprintLayer):
-	var props = ['zorder', 'type_name', 'rel_path']
-	var text = ""
-	for prop in props:
-		text += " ; " + String(layer[prop])
+func _update_credits_text(credits_txt : String):
+	var missing_text = "!MISSING LICENSE INFORMATION!"
+	$CreditsLabel.bbcode_text = blueprint.credits_txt
+	$CreditsLabel.bbcode_text = $CreditsLabel.bbcode_text.replace(missing_text, "[color=red]" + missing_text + "[/color]")
+	
+	var licenses := {
+			"CC0":"https://creativecommons.org/publicdomain/zero/1.0/",
+			"CC-BY-SA 3.0":"https://creativecommons.org/licenses/by-sa/3.0",
+			"CC BY 3.0":"https://creativecommons.org/licenses/by/3.0",
+			"CC-BY 3.0":"https://creativecommons.org/licenses/by/3.0",
+			"CC-BY 4.0":"https://creativecommons.org/licenses/by/4.0",
+			"OGA-BY 3.0":"https://static.opengameart.org/OGA-BY-3.0.txt",
+			"GPL 1.0":"https://www.gnu.org/licenses/gpl-1.0.en.html",
+			"GPL 2.0":"https://www.gnu.org/licenses/gpl-2.0.en.html",
+			"GPL 3.0":"https://www.gnu.org/licenses/gpl-3.0.en.html",
+		}
+		
+	for lic in licenses:
+		$CreditsLabel.bbcode_text = $CreditsLabel.bbcode_text.replace(lic, "[url="+licenses[lic]+"]"+lic+"[/url]")
 
-func _on_layers_item_activated(index):
-	(blueprint as LPCSpriteBlueprint).remove_layer(index)
-	_load_from_blueprint()
+func _on_meta_clicked(meta : String):
+	if meta.begins_with("res://"):
+		var path = ProjectSettings.globalize_path(meta)
+		OS.shell_open(path)
+	else:
+		OS.shell_open(meta)
 
 func _load_from_blueprint():
+	$LayersList.bbcode_text = "[table=3][cell]Z[/cell][cell]Type[/cell][cell]File path[/cell]"
+	$CreditsLabel.bbcode_text = ""
 	if blueprint:
+		_update_credits_text(blueprint.credits_txt)
 		for index in range(0, blueprint.layers.size()):
-			var meta = (blueprint.layers[index] as LPCSpriteBlueprintLayer)
-			_add_layers_item(index, blueprint.layers[index])
+			var meta := (blueprint.layers[index] as LPCSpriteBlueprintLayer)
+			var format_string = '[cell]{z}[/cell] [cell]{t}[/cell] [cell][url={url}]{rp}[/url][/cell]\n'
+			$LayersList.bbcode_text += format_string.format({"z":meta.zorder, "t":meta.type_name, "rp":meta.rel_path, "url":meta.rel_path})
+			
+	$LayersList.bbcode_text += "[/table]"
 
 func _set_animation(animname : String):
 	for sprite in $vpc/vp.get_children():
@@ -109,7 +132,8 @@ func _on_ButtonImport_pressed():
 		blueprint.add_layers(new_layers)
 		yield(get_tree(), "idle_frame")
 		blueprint.source_url = data["url"]
-		
+		blueprint.credits_txt = str(data["credits"])
+
 	_load_from_blueprint()
 
 func _on_ButtonOpen_pressed():
@@ -117,3 +141,19 @@ func _on_ButtonOpen_pressed():
 		OS.shell_open(blueprint.source_url)
 	else:
 		OS.shell_open("http://127.0.0.1:5500/index.html")
+
+func _on_LayersList_meta_clicked(meta):
+	var tween = get_tree().create_tween()
+	tween.set_parallel()
+	for sprite in $vpc/vp.get_children():
+		var layers = sprite.get_layers()
+		for layer in layers:
+			var bp_layer = ((layer as LPCSpriteLayer).blueprint_layer as LPCSpriteBlueprintLayer)
+			if bp_layer.rel_path == meta:
+				tween.tween_method(layer, "set_highlight", Color(1,1,1,1), Color(0,0,0,0), 0.5)
+				tween.tween_method(layer, "set_outline", Color(1,0,0,1), Color(1,0,0,0), 0.5)
+
+
+func _on_ReplayButton_pressed():
+	for sprite in $vpc/vp.get_children():
+		sprite.frame = 0

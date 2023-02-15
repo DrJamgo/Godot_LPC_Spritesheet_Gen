@@ -2,14 +2,18 @@ tool
 extends SpriteFrames
 class_name LPCSpriteBlueprint, 'internal/lpc_icon_spec.png'
 
-export(String, 'male', 'female', 'child', 'pregnant', 'muscular') var body_type := 'male'
 export(Array, Resource) var layers 
 
+var resources_url := ""
 var source_url := ""
+var credits_txt := ""
+
+func _on_layer_changed():
+	emit_changed()
 
 func _init():
 	if animations.size() == 1:
-		animations = preload("internal/LPCFrames.tres").animations.duplicate(true)
+		animations = preload("internal/lpc_frames.tres").animations.duplicate(true)
 	_set_atlas(preload("internal/lpc_char_ss_template.png"))
 
 func _get_index_by_z(z : int):
@@ -24,6 +28,7 @@ func add_layers(_layers : Array):
 		var index = _get_index_by_z(layer.zorder)
 		layerPos.append(index)
 		layers.insert(index, layer)
+		layer.connect("changed", self, "_on_layer_changed")
 	_set_atlas(null) # << clear default texture atlas
 	emit_changed()
 	return layerPos

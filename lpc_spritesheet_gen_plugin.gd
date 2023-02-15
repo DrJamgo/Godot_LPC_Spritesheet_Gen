@@ -4,7 +4,7 @@ extends EditorPlugin
 var inspector_plugin
 
 func _enter_tree():
-	var LPCSpiteInspector = load("internal/LPCSpriteInstector.gd")
+	var LPCSpiteInspector = preload("internal/lpc_sprite_inspector.gd")
 	inspector_plugin = LPCSpiteInspector.new()
 	inspector_plugin.editor_interface = get_editor_interface()
 

@@ -2,7 +2,7 @@ extends Node2D
 
 var attacking = false
 
-func _attack(anim_name : String):
+func _play_and_wait(anim_name : String):
 	attacking = true
 	$LPCSprite.set_anim(anim_name)
 	yield($LPCSprite, "animation_finished")
@@ -23,10 +23,4 @@ func _process(delta):
 			$LPCSprite.set_anim("idle")
 			
 		if Input.is_mouse_button_pressed(BUTTON_LEFT):
-			_attack("slash")
-
-		if Input.is_mouse_button_pressed(BUTTON_RIGHT):
-			_attack("cast")
-
-		if Input.is_mouse_button_pressed(BUTTON_MIDDLE):
-			_attack("shoot")
+			_play_and_wait("slash")

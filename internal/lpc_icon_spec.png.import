@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/icon_save-arrow.png-caddaccf9f6e884e858fc9aae1b9f5ae.stex"
+path="res://.import/lpc_icon_spec.png-3f048f29568b2bcf927449835aed3994.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/lpc_spritesheet_gen/icon_save-arrow.png"
-dest_files=[ "res://.import/icon_save-arrow.png-caddaccf9f6e884e858fc9aae1b9f5ae.stex" ]
+source_file="res://addons/lpc_spritesheet_gen/internal/lpc_icon_spec.png"
+dest_files=[ "res://.import/lpc_icon_spec.png-3f048f29568b2bcf927449835aed3994.stex" ]
 
 [params]
 
@@ -23,7 +23,7 @@ flags/repeat=0
 flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
-flags/srgb=0
+flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
@@ -31,5 +31,5 @@ process/invert_color=false
 process/normal_map_invert_y=false
 stream=false
 size_limit=0
-detect_3d=false
+detect_3d=true
 svg/scale=1.0

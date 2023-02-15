@@ -1,6 +1,6 @@
 tool
 extends SpriteFrames
-class_name LPCSpriteBlueprint, 'lpc_icon_spec.png'
+class_name LPCSpriteBlueprint, 'internal/lpc_icon_spec.png'
 
 export(String, 'male', 'female', 'child', 'pregnant', 'muscular') var body_type := 'male'
 export(Array, Resource) var layers 
@@ -9,8 +9,8 @@ var source_url := ""
 
 func _init():
 	if animations.size() == 1:
-		animations = preload("res://addons/lpc_spritesheet_gen/LPCFrames.tres").animations.duplicate(true)
-	_set_atlas(preload("res://addons/lpc_spritesheet_gen/lpc_char_ss_template.png"))
+		animations = preload("internal/LPCFrames.tres").animations.duplicate(true)
+	_set_atlas(preload("internal/lpc_char_ss_template.png"))
 
 func _get_index_by_z(z : int):
 	for i in range(0, layers.size()):

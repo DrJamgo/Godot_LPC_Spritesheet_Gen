@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/lpc_char_ss_template.png-444b0c4c5e18760537d4c616ce6565eb.stex"
+path="res://.import/lpc_icon.png-b712b9eb3b18038170d45d61c907ddb5.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/lpc_spritesheet_gen/lpc_char_ss_template.png"
-dest_files=[ "res://.import/lpc_char_ss_template.png-444b0c4c5e18760537d4c616ce6565eb.stex" ]
+source_file="res://addons/lpc_spritesheet_gen/internal/lpc_icon.png"
+dest_files=[ "res://.import/lpc_icon.png-b712b9eb3b18038170d45d61c907ddb5.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/lpc_icon_spec.png-0360f9ee54f5de3b5bb214866072bfea.stex"
+path="res://.import/icon_wireframe-globe.png-196ed1977081960ca84e4ce689907957.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/lpc_spritesheet_gen/lpc_icon_spec.png"
-dest_files=[ "res://.import/lpc_icon_spec.png-0360f9ee54f5de3b5bb214866072bfea.stex" ]
+source_file="res://addons/lpc_spritesheet_gen/internal/icon_wireframe-globe.png"
+dest_files=[ "res://.import/icon_wireframe-globe.png-196ed1977081960ca84e4ce689907957.stex" ]
 
 [params]
 
@@ -23,7 +23,7 @@ flags/repeat=0
 flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
-flags/srgb=2
+flags/srgb=0
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
@@ -31,5 +31,5 @@ process/invert_color=false
 process/normal_map_invert_y=false
 stream=false
 size_limit=0
-detect_3d=true
+detect_3d=false
 svg/scale=1.0

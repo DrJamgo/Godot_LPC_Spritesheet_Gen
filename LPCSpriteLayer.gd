@@ -7,7 +7,7 @@ var blueprint_layer : LPCSpriteBlueprintLayer
 func _init():
 	region_enabled = true
 	centered = false
-	material = preload("res://addons/lpc_spritesheet_gen/lpc_layers_material_shader.tres")
+	material = preload("lpc_layers_material_shader.tres")
 
 func set_atlas(tex : Texture):
 	texture = tex

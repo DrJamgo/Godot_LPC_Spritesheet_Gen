@@ -1,12 +1,17 @@
 tool
 extends AnimatedSprite
-class_name LPCSprite, "lpc_icon.png"
+class_name LPCSprite, "internal/lpc_icon.png"
 
 export(String, 'down','left','up','right') var dir = 'down' setget set_dir
-export(String, 'idle', 'walk', 'cast', 'slash', 'thrust', 'hurt') var anim = 'idle' setget set_anim
+export(String, 'idle', 'walk', 'stride', 'jog', 'cast', 'slash', 'thrust', 'hurt') var anim = 'idle' setget set_anim
+
+# If enabled: three animations (based on speed) are used: walk, stride, jog
+# If disabled: only 'walk' is used with varying animation speeds
+export(bool) var stride_jog_enabled = false
 
 var outline
 var highlight
+var _layers := []
 
 signal animation_trigger(anim)
 
@@ -46,11 +51,13 @@ func _load_layers():
 func _add_layer(layer : LPCSpriteBlueprintLayer) -> Sprite:
 	var new_sprite = LPCSpriteLayer.new() if (layer.oversize_animation == null) else LPCSpriteLayerOversize.new()
 	new_sprite.set_atlas(layer.texture)
+	new_sprite.unique_name_in_owner = false
 	new_sprite.set_name(layer.type_name)
 	new_sprite.offset += self.offset
 	new_sprite.centered = centered
 	new_sprite.blueprint_layer = layer
 	add_child(new_sprite)
+	_layers.push_back(new_sprite)
 	(frames as LPCSpriteBlueprint)._set_atlas(null)
 	return new_sprite
 
@@ -78,17 +85,20 @@ func set_highlight(color = Color(0,0,0,0)):
 func move(direction : Vector2):
 	var speed = direction.length()
 	set_dir(direction)
-	speed_scale = speed / 32
-	if speed > 48:
-		#anim = 'hustle'
-		anim = 'walk'
-	elif speed > 32:
-		anim = 'walk'
-	elif speed > 0:
-		#anim = 'stroll'
-		anim = 'walk'
-	else:
+
+	if speed <= 0:
 		anim = 'idle'
+	else:
+		if stride_jog_enabled:
+			if speed > 48:
+				anim = 'jog'
+			elif speed > 28:
+				anim = 'stride'
+			elif speed > 0:
+				anim = 'walk'
+		else:
+			speed_scale = speed / 32
+			anim = 'walk'
 
 func reset():
 	stop()
@@ -118,8 +128,17 @@ func _angle_to_dir(_angle):
 	else:
 		return 'left'
 
-func _play(_anim):
-	play(_anim)
+const _stride_anim_names = ['stride', 'walk', 'jog']
+
+func _play(_anim : String):
+	# This mess is an attempt to blend stride animations changes better together
+	if _anim.split("_")[0] in _stride_anim_names and animation.split("_")[0] in _stride_anim_names:
+		var factor : float = float(frame) / float(frames.get_frame_count(animation))
+		var index := int(round(factor * float(frames.get_frame_count(_anim))))
+		animation = _anim
+		frame = index
+	else:
+		animation = _anim
 	_on_LPCSprite_frame_changed()
 
 var last_frames = null

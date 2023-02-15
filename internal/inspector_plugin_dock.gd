@@ -1,7 +1,6 @@
 tool
 extends VBoxContainer
 
-const rootpath = "res://addons/lpc_spritesheet_gen/lpc_spritesheets"
 const dst_base_path = "res://assets/lpc_spritesheets/"
 
 var editor_interface : EditorInterface
@@ -13,13 +12,9 @@ signal _web_files_downloaded()
 
 func set_blueprint(_blueprint : LPCSpriteBlueprint):
 	blueprint = _blueprint
-	($vpc/vp/sprite_down as LPCSprite).set_dir(Vector2(0,1))
-	($vpc/vp/sprite_up as LPCSprite).set_dir(Vector2(0,-1))
-	($vpc/vp/sprite_left as LPCSprite).set_dir(Vector2(-1,0))
-	($vpc/vp/sprite_right as LPCSprite).set_dir(Vector2(1,0))
 	for sprite in $vpc/vp.get_children():
 		(sprite as LPCSprite).frames = blueprint
-		(sprite as LPCSprite).set_anim($bodytypes/animation.text)
+		_set_animation($bodytypes/animation.text)
 		(sprite as LPCSprite).playing = true
 	_load_from_blueprint()
 
@@ -46,11 +41,8 @@ func _load_from_blueprint():
 func _set_animation(animname : String):
 	for sprite in $vpc/vp.get_children():
 		var suffix = sprite.name.split('_')[1]
-		var anim = animname + "_" + suffix
-		if sprite.frames.has_animation(anim):
-			sprite.play(anim)
-		else:
-			sprite.play('idle_'+suffix)
+		(sprite as LPCSprite).set_dir(suffix)
+		(sprite as LPCSprite).set_anim(animname)
 
 func _on_animation_item_selected(index):
 	var animname = $bodytypes/animation.get_item_text(index)

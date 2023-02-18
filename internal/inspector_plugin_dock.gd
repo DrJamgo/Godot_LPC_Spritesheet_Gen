@@ -1,7 +1,7 @@
 tool
 extends VBoxContainer
 
-var dst_base_path = get_script().get_path().get_base_dir() + "/spritesheets/"
+var dst_base_path = get_script().get_path().get_base_dir() + "/../spritesheets/"
 
 var editor_interface : EditorInterface
 var blueprint : LPCSpriteBlueprint setget set_blueprint
@@ -87,6 +87,7 @@ func _download_spritesheets_from_web(base_url : String, layers : Array):
 	yield(get_tree(), "idle_frame")
 	if downloaded_files.size() > 0:
 		var filesystem := editor_interface.get_resource_filesystem()
+		editor_interface.get_resource_filesystem()
 		print("Rescan..")
 		filesystem.scan()
 		yield(filesystem, "resources_reimported")

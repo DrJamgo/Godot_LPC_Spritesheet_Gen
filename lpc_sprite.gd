@@ -43,13 +43,7 @@ func _process(delta):
 		frames.connect("changed", self, "_reload_layers_from_blueprint")
 		_reload_layers_from_blueprint()
 	_last_frames = frames
-	var anim_name = anim + "_" + dir
-	if animation != anim_name:
-		if anim == 'hurt':
-			dir = 'down' # 'hurt' is always 'down'
-			_update_animation('hurt_down')
-		else:
-			_update_animation(anim_name)
+	_update_animation()
 
 
 func _enter_tree():
@@ -78,6 +72,7 @@ func set_dir(direction):
 	if typeof(direction) == TYPE_VECTOR2:
 		direction = _angle_to_dir(direction.angle())
 	dir = direction
+	_update_animation()
 
 ## Set animation by name and play it, can be one of:
 ## - idle
@@ -89,11 +84,12 @@ func set_dir(direction):
 ## - shoot
 ## - hurt
 func set_anim(_animation_name : String):
+	frame = 0
 	playing = true
 	if anim != _animation_name:
 		anim = _animation_name
 		speed_scale = 1.0
-
+	_update_animation()
 
 # Takes velocity vector and chooses correct animation from it
 # Note: 32px/s is 
@@ -112,7 +108,8 @@ func animate_movement(velocity : Vector2):
 			speed_scale = speed / 32
 			anim = 'walk'
 	else:
-		anim = 'idle'		
+		anim = 'idle'
+	_update_animation()
 
 ## Returns layers matching the optional "type" filter, layers are of type LPCSpriteLayer
 ## Some type string examples:
@@ -189,16 +186,22 @@ func _angle_to_dir(_angle):
 		return 'left'
 
 
-func _update_animation(_anim : String):
-	# This mess is an attempt to blend stride animations changes better together
-	if _anim.split("_")[0] in _walk_anim_names and animation.split("_")[0] in _walk_anim_names:
-		var factor : float = float(frame) / float(frames.get_frame_count(animation))
-		var index := int(round(factor * float(frames.get_frame_count(_anim))))
-		animation = _anim
-		frame = index
-	else:
-		animation = _anim
-	_on_LPCSprite_frame_changed()
+func _update_animation():
+	
+	var anim_name = anim + "_" + dir
+	if animation != anim_name:
+		if anim == 'hurt':
+			dir = 'down' # 'hurt' is always 'down'
+			anim_name = 'hurt_down'
+		# This mess is an attempt to blend stride animations changes better together
+		if anim in _walk_anim_names and animation.split("_")[0] in _walk_anim_names:
+			var factor : float = float(frame) / float(frames.get_frame_count(animation))
+			var index := int(round(factor * float(frames.get_frame_count(anim_name))))
+			animation = anim_name
+			frame = index
+		else:
+			animation = anim_name
+		_on_LPCSprite_frame_changed()
 
 
 func _on_LPCSprite_frame_changed():

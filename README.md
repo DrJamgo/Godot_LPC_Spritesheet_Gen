@@ -4,17 +4,15 @@ The plugin also offers the [LPCSprite](lps_sprite.gd) Class for easy animation o
 
 ## Basics
 Thera are two main classes:
-- [LPCSpriteBlueprint](lps_sprite_blueprint.gd) Holds the various spritesheet layers and supported animations
-- [LPCSprite](lps_sprite.gd) Uses the [LPCSpriteBlueprint](lps_sprite_blueprint.gd) to play the animations during runtime
+- ![](internal/lpc_icon_spec.png)[LPCSpriteBlueprint](lps_sprite_blueprint.gd) (Inherited from [SpriteFrames](https://docs.godotengine.org/en/stable/classes/class_spriteframes.html)) Holds the various spritesheet layers and supported animations
+- ![](internal/lpc_icon.png)[LPCSprite](lps_sprite.gd) (Inherited from [AnimatedSprite](https://docs.godotengine.org/en/stable/classes/class_animatedsprite.html#class-animatedsprite)) Uses the [LPCSpriteBlueprint](lps_sprite_blueprint.gd) to play the animations during runtime
 
 ## Workflow
 The work flow is as simple as:
 
 - Create an instance of [LPCSprite](lps_sprite.gd)<br>![](docs/Screenshot_create_LPCSPrite.png)
 - Set the `frames` property to a new [LPCSpriteBlueprint](lps_sprite_blueprint.gd) instance or load an existing one and __select__ it<br>![](docs/Screenshot_new_blueprint.png) ![](docs/SCreenshot_Select_frames.png)
-
-Your empty Blueprint should look like this:
-![](docs/Screenshot_empty_blueprint.png)
+- Your empty Blueprint should look like this:<br>![](docs/Screenshot_empty_blueprint.png)
 
 ### Generate your Spritesheet
   - Go to https://sanderfrenken.github.io/Universal-LPC-Spritesheet-Character-Generator/

@@ -25,3 +25,17 @@ Your empty Blueprint should look like this:
 - Import it in Godot
   - Click "Import from Clipboard" <br>![](docs/Screenshot_Import.png)
   - Now you can test your LPCSprite <br>![](docs/Screenshot_Plugin_Paladin.png)
+
+## Usage of the `LPCSprite` class
+- Checkout the [demo](demo) where you can strike down a skeleton endlessly.
+- The contained scripts show some basic usage, like:
+  - use `set_anim()` so set an ainimation
+  - use `animate_movement()` to make LPCSprite pick an animation based on your motion vector
+  - react to signal `"animation_climax"` to e.g. deal damage at the climax point of an animation
+  - use `get_layers()` and functions like `set_glow()` or `set_highlight()` to animate the material of some layers
+
+![](Screenshot_Demo.png)
+
+## Additional information
+- You are responsible to comply with the license terms of the art you use
+- 

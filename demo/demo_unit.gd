@@ -2,6 +2,17 @@ extends Node2D
 
 var attacking = false
 
+func _on_animation_climax(animation_name):
+	if animation_name == "slash":
+		var weapon_layers = $LPCSprite.get_layers(["weapon"])
+		var tween = get_tree().create_tween()
+		tween.set_parallel()
+		for layer in weapon_layers:
+			tween.tween_method(layer, "set_glow", Color(1,0,0,1), Color(1,0,0,0), 0.5)
+
+func _ready():
+	$LPCSprite.connect("animation_climax", self, "_on_animation_climax")
+
 func _play_and_wait(anim_name : String):
 	attacking = true
 	$LPCSprite.set_anim(anim_name)
@@ -18,7 +29,7 @@ func _process(delta):
 				velocity = velocity.normalized() * 16.0
 			velocity = velocity.clamped(96.0)
 			position += velocity * delta
-			$LPCSprite.move(velocity)
+			$LPCSprite.animate_movement(velocity)
 		else:
 			$LPCSprite.set_anim("idle")
 			

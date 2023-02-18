@@ -1,7 +1,7 @@
 tool
 extends VBoxContainer
 
-const dst_base_path = "res://assets/lpc_spritesheets/"
+var dst_base_path = get_script().get_path().get_base_dir() + "/spritesheets/"
 
 var editor_interface : EditorInterface
 var blueprint : LPCSpriteBlueprint setget set_blueprint
@@ -157,3 +157,8 @@ func _on_LayersList_meta_clicked(meta):
 func _on_ReplayButton_pressed():
 	for sprite in $vpc/vp.get_children():
 		sprite.frame = 0
+
+func _on_ReloadButton_pressed():
+	if blueprint:
+		_load_from_blueprint()
+		blueprint.emit_changed()

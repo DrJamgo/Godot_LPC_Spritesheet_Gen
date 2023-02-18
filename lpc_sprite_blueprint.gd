@@ -3,10 +3,9 @@ extends SpriteFrames
 class_name LPCSpriteBlueprint, 'internal/lpc_icon_spec.png'
 
 export(Array, Resource) var layers 
-
-var resources_url := ""
-var source_url := ""
-var credits_txt := ""
+export(String) var resources_url : String
+export(String) var source_url : String
+export(String, MULTILINE) var credits_txt : String
 
 func _on_layer_changed():
 	emit_changed()

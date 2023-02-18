@@ -193,15 +193,16 @@ func _update_animation():
 		if anim == 'hurt':
 			dir = 'down' # 'hurt' is always 'down'
 			anim_name = 'hurt_down'
-		# This mess is an attempt to blend stride animations changes better together
-		if anim in _walk_anim_names and animation.split("_")[0] in _walk_anim_names:
-			var factor : float = float(frame) / float(frames.get_frame_count(animation))
-			var index := int(round(factor * float(frames.get_frame_count(anim_name))))
-			animation = anim_name
-			frame = index
-		else:
-			animation = anim_name
-		_on_LPCSprite_frame_changed()
+		if frames.has_animation(anim_name):
+			# This mess is an attempt to blend stride animations changes better together
+			if anim in _walk_anim_names and animation.split("_")[0] in _walk_anim_names:
+				var factor : float = float(frame) / float(frames.get_frame_count(animation))
+				var index := int(round(factor * float(frames.get_frame_count(anim_name))))
+				animation = anim_name
+				frame = index
+			else:
+				animation = anim_name
+			_on_LPCSprite_frame_changed()
 
 
 func _on_LPCSprite_frame_changed():

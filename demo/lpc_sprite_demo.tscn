@@ -53,14 +53,28 @@ left -> slash
 right -> cast
 middle -> shoot"
 text = "Point mouse to move Unit
-left mouse button -> slash
-"
+Mouse buttons to play animations:
+left -> slash
+right -> cast
+middle -> shoot"
 
 [node name="Node2D" type="YSort" parent="."]
 scale = Vector2( 2, 2 )
 
+[node name="Skeleton" type="Node2D" parent="Node2D"]
+position = Vector2( 253, 168 )
+script = SubResource( 1 )
+
+[node name="LPCSprite" type="AnimatedSprite" parent="Node2D/Skeleton"]
+frames = ExtResource( 4 )
+animation = "idle_down"
+playing = true
+centered = false
+offset = Vector2( -32, -60 )
+script = ExtResource( 2 )
+
 [node name="Paladin" type="Node2D" parent="Node2D"]
-position = Vector2( 165, 132 )
+position = Vector2( 203.5, 179.5 )
 script = ExtResource( 1 )
 skeleton_node = NodePath("../Skeleton")
 
@@ -75,20 +89,11 @@ align = 1
 
 [node name="LPCSprite" type="AnimatedSprite" parent="Node2D/Paladin"]
 frames = ExtResource( 3 )
-animation = "idle_down"
+animation = "slash_right"
+frame = 4
 playing = true
 centered = false
 offset = Vector2( -32, -60 )
 script = ExtResource( 2 )
-
-[node name="Skeleton" type="Node2D" parent="Node2D"]
-position = Vector2( 253, 168 )
-script = SubResource( 1 )
-
-[node name="LPCSprite" type="AnimatedSprite" parent="Node2D/Skeleton"]
-frames = ExtResource( 4 )
-animation = "idle_down"
-playing = true
-centered = false
-offset = Vector2( -32, -60 )
-script = ExtResource( 2 )
+dir = "right"
+anim = "slash"

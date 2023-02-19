@@ -1,3 +1,6 @@
+## Copyright (C) 2023 Denis Selensky - All Rights Reserved
+## You may use, distribute and modify this code under the terms of the MIT license
+
 tool
 class_name LPCSprite, "internal/lpc_icon.png"
 extends AnimatedSprite

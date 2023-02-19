@@ -1,3 +1,6 @@
+## Copyright (C) 2023 Denis Selensky - All Rights Reserved
+## You may use, distribute and modify this code under the terms of the MIT license
+
 tool
 extends Resource
 class_name LPCSpriteBlueprintLayer

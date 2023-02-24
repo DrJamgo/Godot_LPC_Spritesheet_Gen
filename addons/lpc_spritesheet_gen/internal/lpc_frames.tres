@@ -1,7 +1,7 @@
 [gd_resource type="SpriteFrames" load_steps=217 format=2]
 
 [sub_resource type="StreamTexture" id=819]
-load_path = "res://.import/lpc_char_ss_template.png-444b0c4c5e18760537d4c616ce6565eb.stex"
+load_path = "res://.import/lpc_char_ss_template.png-6ca04f27c1f2597326054214156872e4.stex"
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = SubResource( 819 )

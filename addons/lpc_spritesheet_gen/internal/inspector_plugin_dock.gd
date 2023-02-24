@@ -144,7 +144,7 @@ func _on_ButtonOpen_pressed():
 	if blueprint.source_url != "":
 		OS.shell_open(blueprint.source_url)
 	else:
-		OS.shell_open("http://127.0.0.1:5500/index.html")
+		OS.shell_open("https://sanderfrenken.github.io/Universal-LPC-Spritesheet-Character-Generator/")
 
 func _on_LayersList_meta_clicked(meta):
 	var tween = get_tree().create_tween()

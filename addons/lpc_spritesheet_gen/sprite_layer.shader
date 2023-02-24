@@ -1,5 +1,5 @@
-## Copyright (C) 2023 Denis Selensky - All Rights Reserved
-## You may use, distribute and modify this code under the terms of the MIT license
+// Copyright (C) 2023 Denis Selensky - All Rights Reserved
+// You may use, distribute and modify this code under the terms of the MIT license
 
 shader_type canvas_item;
 render_mode blend_mix;

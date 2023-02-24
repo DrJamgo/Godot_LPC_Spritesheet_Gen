@@ -3,19 +3,19 @@
 [ext_resource path="res://addons/lpc_spritesheet_gen/internal/lpc_sprite_blueprint_layer.gd" type="Script" id=1]
 [ext_resource path="res://addons/lpc_spritesheet_gen/lpc_sprite_blueprint.gd" type="Script" id=2]
 [ext_resource path="res://addons/lpc_spritesheet_gen/lpc_layers_material_shader.tres" type="Material" id=3]
-[ext_resource path="res://addons/lpc_spritesheet_gen/spritesheets/body/bodies/female/universal/olive.png" type="Texture" id=4]
-[ext_resource path="res://addons/lpc_spritesheet_gen/spritesheets/weapon/slash_oversize_layered/all/universal/longsword.png" type="Texture" id=5]
-[ext_resource path="res://addons/lpc_spritesheet_gen/spritesheets/weapon/slash_oversize_layered/all/universal/behind/longsword.png" type="Texture" id=6]
-[ext_resource path="res://addons/lpc_spritesheet_gen/spritesheets/feet/armour/plate/female/iron.png" type="Texture" id=7]
-[ext_resource path="res://addons/lpc_spritesheet_gen/spritesheets/shoulders/plate/female/bronze.png" type="Texture" id=8]
-[ext_resource path="res://addons/lpc_spritesheet_gen/spritesheets/gloves/female/white.png" type="Texture" id=9]
-[ext_resource path="res://addons/lpc_spritesheet_gen/spritesheets/legs/armour/plate/female/brass.png" type="Texture" id=10]
-[ext_resource path="res://addons/lpc_spritesheet_gen/spritesheets/shield/female/crusader.png" type="Texture" id=11]
-[ext_resource path="res://addons/lpc_spritesheet_gen/spritesheets/head/heads/human_male/universal/olive.png" type="Texture" id=12]
-[ext_resource path="res://addons/lpc_spritesheet_gen/spritesheets/hair/pixie/female/navy.png" type="Texture" id=13]
-[ext_resource path="res://addons/lpc_spritesheet_gen/spritesheets/torso/armour/plate/female/brass.png" type="Texture" id=14]
-[ext_resource path="res://addons/lpc_spritesheet_gen/spritesheets/weapon/slash_oversize_layered/all/longsword.png" type="Texture" id=15]
-[ext_resource path="res://addons/lpc_spritesheet_gen/spritesheets/shadow/adult/shadow.png" type="Texture" id=16]
+[ext_resource path="res://assets/lpc_sprites/body/bodies/female/universal/olive.png" type="Texture" id=4]
+[ext_resource path="res://assets/lpc_sprites/weapon/slash_oversize_layered/all/universal/longsword.png" type="Texture" id=5]
+[ext_resource path="res://assets/lpc_sprites/weapon/slash_oversize_layered/all/universal/behind/longsword.png" type="Texture" id=6]
+[ext_resource path="res://assets/lpc_sprites/feet/armour/plate/female/iron.png" type="Texture" id=7]
+[ext_resource path="res://assets/lpc_sprites/shoulders/plate/female/bronze.png" type="Texture" id=8]
+[ext_resource path="res://assets/lpc_sprites/gloves/female/white.png" type="Texture" id=9]
+[ext_resource path="res://assets/lpc_sprites/legs/armour/plate/female/brass.png" type="Texture" id=10]
+[ext_resource path="res://assets/lpc_sprites/shield/female/crusader.png" type="Texture" id=11]
+[ext_resource path="res://assets/lpc_sprites/head/heads/human_male/universal/olive.png" type="Texture" id=12]
+[ext_resource path="res://assets/lpc_sprites/hair/pixie/female/navy.png" type="Texture" id=13]
+[ext_resource path="res://assets/lpc_sprites/torso/armour/plate/female/brass.png" type="Texture" id=14]
+[ext_resource path="res://assets/lpc_sprites/weapon/slash_oversize_layered/all/longsword.png" type="Texture" id=15]
+[ext_resource path="res://assets/lpc_sprites/shadow/adult/shadow.png" type="Texture" id=16]
 
 [sub_resource type="AtlasTexture" id=1]
 region = Rect2( 0, 128, 64, 64 )
@@ -670,7 +670,7 @@ name = "Shadow"
 type_name = "shadow"
 oversize_animation = null
 variant = "shadow"
-abs_path = "res://addons/lpc_spritesheet_gen/internal/../spritesheets/shadow/adult/shadow.png"
+abs_path = "res://assets/lpc_sprites/shadow/adult/shadow.png"
 rel_path = "shadow/adult/shadow.png"
 texture = ExtResource( 16 )
 material = ExtResource( 3 )
@@ -683,7 +683,7 @@ name = "Slash oversize layered"
 type_name = "weapon"
 oversize_animation = null
 variant = "longsword"
-abs_path = "res://addons/lpc_spritesheet_gen/internal/../spritesheets/weapon/slash_oversize_layered/all/universal/behind/longsword.png"
+abs_path = "res://assets/lpc_sprites/weapon/slash_oversize_layered/all/universal/behind/longsword.png"
 rel_path = "weapon/slash_oversize_layered/all/universal/behind/longsword.png"
 texture = ExtResource( 6 )
 material = ExtResource( 3 )
@@ -696,7 +696,7 @@ name = "Body color"
 type_name = "body"
 oversize_animation = null
 variant = "olive"
-abs_path = "res://addons/lpc_spritesheet_gen/internal/../spritesheets/body/bodies/female/universal/olive.png"
+abs_path = "res://assets/lpc_sprites/body/bodies/female/universal/olive.png"
 rel_path = "body/bodies/female/universal/olive.png"
 texture = ExtResource( 4 )
 material = ExtResource( 3 )
@@ -709,7 +709,7 @@ name = "Armour"
 type_name = "shoes"
 oversize_animation = null
 variant = "iron"
-abs_path = "res://addons/lpc_spritesheet_gen/internal/../spritesheets/feet/armour/plate/female/iron.png"
+abs_path = "res://assets/lpc_sprites/feet/armour/plate/female/iron.png"
 rel_path = "feet/armour/plate/female/iron.png"
 texture = ExtResource( 7 )
 material = ExtResource( 3 )
@@ -722,7 +722,7 @@ name = "Armour"
 type_name = "legs"
 oversize_animation = null
 variant = "brass"
-abs_path = "res://addons/lpc_spritesheet_gen/internal/../spritesheets/legs/armour/plate/female/brass.png"
+abs_path = "res://assets/lpc_sprites/legs/armour/plate/female/brass.png"
 rel_path = "legs/armour/plate/female/brass.png"
 texture = ExtResource( 10 )
 material = ExtResource( 3 )
@@ -735,7 +735,7 @@ name = "Plate"
 type_name = "armour"
 oversize_animation = null
 variant = "brass"
-abs_path = "res://addons/lpc_spritesheet_gen/internal/../spritesheets/torso/armour/plate/female/brass.png"
+abs_path = "res://assets/lpc_sprites/torso/armour/plate/female/brass.png"
 rel_path = "torso/armour/plate/female/brass.png"
 texture = ExtResource( 14 )
 material = ExtResource( 3 )
@@ -748,7 +748,7 @@ name = "Plate"
 type_name = "shoulders"
 oversize_animation = null
 variant = "bronze"
-abs_path = "res://addons/lpc_spritesheet_gen/internal/../spritesheets/shoulders/plate/female/bronze.png"
+abs_path = "res://assets/lpc_sprites/shoulders/plate/female/bronze.png"
 rel_path = "shoulders/plate/female/bronze.png"
 texture = ExtResource( 8 )
 material = ExtResource( 3 )
@@ -761,7 +761,7 @@ name = "Gloves"
 type_name = "gloves"
 oversize_animation = null
 variant = "white"
-abs_path = "res://addons/lpc_spritesheet_gen/internal/../spritesheets/gloves/female/white.png"
+abs_path = "res://assets/lpc_sprites/gloves/female/white.png"
 rel_path = "gloves/female/white.png"
 texture = ExtResource( 9 )
 material = ExtResource( 3 )
@@ -774,7 +774,7 @@ name = "Human male"
 type_name = "head"
 oversize_animation = null
 variant = "olive"
-abs_path = "res://addons/lpc_spritesheet_gen/internal/../spritesheets/head/heads/human_male/universal/olive.png"
+abs_path = "res://assets/lpc_sprites/head/heads/human_male/universal/olive.png"
 rel_path = "head/heads/human_male/universal/olive.png"
 texture = ExtResource( 12 )
 material = ExtResource( 3 )
@@ -787,7 +787,7 @@ name = "Shield"
 type_name = "shield"
 oversize_animation = null
 variant = "crusader"
-abs_path = "res://addons/lpc_spritesheet_gen/internal/../spritesheets/shield/female/crusader.png"
+abs_path = "res://assets/lpc_sprites/shield/female/crusader.png"
 rel_path = "shield/female/crusader.png"
 texture = ExtResource( 11 )
 material = ExtResource( 3 )
@@ -800,7 +800,7 @@ name = "Pixie"
 type_name = "hair"
 oversize_animation = null
 variant = "navy"
-abs_path = "res://addons/lpc_spritesheet_gen/internal/../spritesheets/hair/pixie/female/navy.png"
+abs_path = "res://assets/lpc_sprites/hair/pixie/female/navy.png"
 rel_path = "hair/pixie/female/navy.png"
 texture = ExtResource( 13 )
 material = ExtResource( 3 )
@@ -813,7 +813,7 @@ name = "Slash oversize layered"
 type_name = "weapon"
 oversize_animation = null
 variant = "longsword"
-abs_path = "res://addons/lpc_spritesheet_gen/internal/../spritesheets/weapon/slash_oversize_layered/all/universal/longsword.png"
+abs_path = "res://assets/lpc_sprites/weapon/slash_oversize_layered/all/universal/longsword.png"
 rel_path = "weapon/slash_oversize_layered/all/universal/longsword.png"
 texture = ExtResource( 5 )
 material = ExtResource( 3 )
@@ -826,7 +826,7 @@ name = "Slash oversize layered"
 type_name = "weapon"
 oversize_animation = "slash"
 variant = "longsword"
-abs_path = "res://addons/lpc_spritesheet_gen/internal/../spritesheets/weapon/slash_oversize_layered/all/longsword.png"
+abs_path = "res://assets/lpc_sprites/weapon/slash_oversize_layered/all/longsword.png"
 rel_path = "weapon/slash_oversize_layered/all/longsword.png"
 texture = ExtResource( 15 )
 material = ExtResource( 3 )

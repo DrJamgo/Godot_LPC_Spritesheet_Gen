@@ -3,10 +3,10 @@
 [ext_resource path="res://addons/lpc_spritesheet_gen/internal/lpc_sprite_blueprint_layer.gd" type="Script" id=1]
 [ext_resource path="res://addons/lpc_spritesheet_gen/lpc_sprite_blueprint.gd" type="Script" id=2]
 [ext_resource path="res://addons/lpc_spritesheet_gen/lpc_layers_material_shader.tres" type="Material" id=3]
-[ext_resource path="res://addons/lpc_spritesheet_gen/spritesheets/head/heads/skeleton/universal/skeleton.png" type="Texture" id=4]
-[ext_resource path="res://addons/lpc_spritesheet_gen/spritesheets/shadow/adult/shadow.png" type="Texture" id=5]
-[ext_resource path="res://addons/lpc_spritesheet_gen/spritesheets/body/bodies/skeleton/universal/skeleton.png" type="Texture" id=6]
-[ext_resource path="res://addons/lpc_spritesheet_gen/spritesheets/torso/armour/legion/male/ceramic.png" type="Texture" id=7]
+[ext_resource path="res://assets/lpc_sprites/head/heads/skeleton/universal/skeleton.png" type="Texture" id=4]
+[ext_resource path="res://assets/lpc_sprites/shadow/adult/shadow.png" type="Texture" id=5]
+[ext_resource path="res://assets/lpc_sprites/body/bodies/skeleton/universal/skeleton.png" type="Texture" id=6]
+[ext_resource path="res://assets/lpc_sprites/torso/armour/legion/male/ceramic.png" type="Texture" id=7]
 
 [sub_resource type="AtlasTexture" id=220]
 region = Rect2( 0, 128, 64, 64 )
@@ -661,7 +661,7 @@ name = "Shadow"
 type_name = "shadow"
 oversize_animation = null
 variant = "shadow"
-abs_path = "res://addons/lpc_spritesheet_gen/internal/../spritesheets/shadow/adult/shadow.png"
+abs_path = "res://assets/lpc_sprites/shadow/adult/shadow.png"
 rel_path = "shadow/adult/shadow.png"
 texture = ExtResource( 5 )
 material = ExtResource( 3 )
@@ -674,7 +674,7 @@ name = "Skeleton"
 type_name = "body"
 oversize_animation = null
 variant = "skeleton"
-abs_path = "res://addons/lpc_spritesheet_gen/internal/../spritesheets/body/bodies/skeleton/universal/skeleton.png"
+abs_path = "res://assets/lpc_sprites/body/bodies/skeleton/universal/skeleton.png"
 rel_path = "body/bodies/skeleton/universal/skeleton.png"
 texture = ExtResource( 6 )
 material = ExtResource( 3 )
@@ -687,7 +687,7 @@ name = "Legion"
 type_name = "armour"
 oversize_animation = null
 variant = "ceramic"
-abs_path = "res://addons/lpc_spritesheet_gen/internal/../spritesheets/torso/armour/legion/male/ceramic.png"
+abs_path = "res://assets/lpc_sprites/torso/armour/legion/male/ceramic.png"
 rel_path = "torso/armour/legion/male/ceramic.png"
 texture = ExtResource( 7 )
 material = ExtResource( 3 )
@@ -700,7 +700,7 @@ name = "Skeleton"
 type_name = "head"
 oversize_animation = null
 variant = "skeleton"
-abs_path = "res://addons/lpc_spritesheet_gen/internal/../spritesheets/head/heads/skeleton/universal/skeleton.png"
+abs_path = "res://assets/lpc_sprites/head/heads/skeleton/universal/skeleton.png"
 rel_path = "head/heads/skeleton/universal/skeleton.png"
 texture = ExtResource( 4 )
 material = ExtResource( 3 )

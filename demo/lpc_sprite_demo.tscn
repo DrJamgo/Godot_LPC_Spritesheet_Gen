@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://addons/lpc_spritesheet_gen/demo/demo_unit.gd" type="Script" id=1]
+[ext_resource path="res://demo/demo_unit.gd" type="Script" id=1]
 [ext_resource path="res://addons/lpc_spritesheet_gen/lpc_sprite.gd" type="Script" id=2]
-[ext_resource path="res://addons/lpc_spritesheet_gen/demo/paladin_blueprint.tres" type="SpriteFrames" id=3]
-[ext_resource path="res://addons/lpc_spritesheet_gen/demo/skeleton_blueprint.tres" type="SpriteFrames" id=4]
+[ext_resource path="res://demo/paladin_blueprint.tres" type="SpriteFrames" id=3]
+[ext_resource path="res://demo/skeleton_blueprint.tres" type="SpriteFrames" id=4]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D

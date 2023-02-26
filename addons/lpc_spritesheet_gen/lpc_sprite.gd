@@ -44,7 +44,7 @@ func _process(delta):
 		# reconnect if frames object changed (needed for editor)
 		_last_frames.disconnect("changed", self, "_reload_layers_from_blueprint")
 		frames.connect("changed", self, "_reload_layers_from_blueprint")
-		_reload_layers_from_blueprint()
+		call_deferred("_reload_layers_from_blueprint")
 	_last_frames = frames
 	_update_animation()
 
@@ -197,7 +197,7 @@ func _update_animation():
 		if anim == 'hurt':
 			dir = 'down' # 'hurt' is always 'down'
 			anim_name = 'hurt_down'
-		if frames.has_animation(anim_name):
+		if frames and frames.has_animation(anim_name):
 			# This mess is an attempt to blend stride animations changes better together
 			if anim in _walk_anim_names and animation.split("_")[0] in _walk_anim_names:
 				var factor : float = float(frame) / float(frames.get_frame_count(animation))

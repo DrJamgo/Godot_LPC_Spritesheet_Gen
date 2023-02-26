@@ -25,7 +25,7 @@ func _enter_tree():
 	if !blueprint:
 		set_blueprint(LPCSpriteBlueprint.new())
 
-func _update_credits_text(credits_txt : String):
+func _update_credits_text():
 	var missing_text = "!MISSING LICENSE INFORMATION!"
 	$CreditsLabel.bbcode_text = blueprint.credits_txt
 	$CreditsLabel.bbcode_text = $CreditsLabel.bbcode_text.replace(missing_text, "[color=red]" + missing_text + "[/color]")
@@ -56,7 +56,7 @@ func _load_from_blueprint():
 	$LayersList.bbcode_text = "[table=3][cell]Z[/cell][cell]Type[/cell][cell]File path[/cell]"
 	$CreditsLabel.bbcode_text = ""
 	if blueprint:
-		_update_credits_text(blueprint.credits_txt)
+		_update_credits_text()
 		for index in range(0, blueprint.layers.size()):
 			var meta := (blueprint.layers[index] as LPCSpriteBlueprintLayer)
 			var format_string = '[cell]{z}[/cell] [cell]{t}[/cell] [cell][url={url}]{rp}[/url][/cell]\n'
@@ -90,7 +90,6 @@ func _download_spritesheets_from_web(base_url : String, layers : Array):
 	yield(get_tree(), "idle_frame")
 	if downloaded_files.size() > 0:
 		var filesystem := editor_interface.get_resource_filesystem()
-		editor_interface.get_resource_filesystem()
 		print("Rescan..")
 		filesystem.scan()
 		yield(filesystem, "resources_reimported")
@@ -102,7 +101,6 @@ func _download_spritesheets_from_web(base_url : String, layers : Array):
 func _on_ButtonImport_pressed():
 	var clipboard_content := OS.get_clipboard()
 	var jsonResult := JSON.parse(clipboard_content)
-	var fs := editor_interface.get_resource_filesystem()
 	if jsonResult.error == OK and jsonResult.result is Dictionary:
 		var data : Dictionary = jsonResult.result
 		_download_spritesheets_from_web(data["spritesheets"], data["layers"])

@@ -170,6 +170,7 @@ func _add_layer_sprite(layer : LPCSpriteBlueprintLayer) -> Sprite:
 	new_sprite.centered = centered
 	new_sprite.blueprint_layer = layer
 	new_sprite.material = layer.material.duplicate()
+	new_sprite.texture.flags = Texture.FLAG_MIPMAPS
 	add_child(new_sprite)
 	(frames as LPCSpriteBlueprint)._set_atlas(null)
 	return new_sprite

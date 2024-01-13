@@ -1,16 +1,22 @@
+@tool
 ## Copyright (C) 2023 Denis Selensky - All Rights Reserved
 ## You may use, distribute and modify this code under the terms of the MIT license
 
-tool
 extends VBoxContainer
 
 var dst_base_path = "res://assets/lpc_sprites/"
 
 var editor_interface : EditorInterface
-var blueprint : LPCSpriteBlueprint setget set_blueprint
+var blueprint : LPCSpriteBlueprint: 
+	set(_blueprint):
+		blueprint = _blueprint
+		for sprite in $vpc/vp.get_children():
+			(sprite as LPCSprite).frames = blueprint
+			_set_animation($bodytypes/animation.text)
+			(sprite as LPCSprite).play()
+		_load_from_blueprint()
 
-onready var http_node := $CanvasLayer/HTTPRequest
-
+@onready var http_node := $CanvasLayer/HTTPRequest
 signal _web_files_downloaded()
 
 func set_blueprint(_blueprint : LPCSpriteBlueprint):
@@ -18,17 +24,18 @@ func set_blueprint(_blueprint : LPCSpriteBlueprint):
 	for sprite in $vpc/vp.get_children():
 		(sprite as LPCSprite).frames = blueprint
 		_set_animation($bodytypes/animation.text)
-		(sprite as LPCSprite).playing = true
+		(sprite as LPCSprite).play()
 	_load_from_blueprint()
 
 func _enter_tree():
+	print_debug("inspector enter tree")
 	if !blueprint:
 		set_blueprint(LPCSpriteBlueprint.new())
 
 func _update_credits_text():
 	var missing_text = "!MISSING LICENSE INFORMATION!"
-	$CreditsLabel.bbcode_text = blueprint.credits_txt
-	$CreditsLabel.bbcode_text = $CreditsLabel.bbcode_text.replace(missing_text, "[color=red]" + missing_text + "[/color]")
+	$CreditsLabel.text = blueprint.credits_txt
+	$CreditsLabel.text = $CreditsLabel.text.replace(missing_text, "[color=red]" + missing_text + "[/color]")
 	
 	var licenses := {
 			"CC0":"https://creativecommons.org/publicdomain/zero/1.0/",
@@ -43,7 +50,7 @@ func _update_credits_text():
 		}
 		
 	for lic in licenses:
-		$CreditsLabel.bbcode_text = $CreditsLabel.bbcode_text.replace(lic, "[url="+licenses[lic]+"]"+lic+"[/url]")
+		$CreditsLabel.text = $CreditsLabel.text.replace(lic, "[url="+licenses[lic]+"]"+lic+"[/url]")
 
 func _on_meta_clicked(meta : String):
 	if meta.begins_with("res://"):
@@ -53,16 +60,16 @@ func _on_meta_clicked(meta : String):
 		OS.shell_open(meta)
 
 func _load_from_blueprint():
-	$LayersList.bbcode_text = "[table=3][cell]Z[/cell][cell]Type[/cell][cell]File path[/cell]"
-	$CreditsLabel.bbcode_text = ""
+	$LayersList.text = "[table=3][cell]Z[/cell][cell]Type[/cell][cell]File path[/cell]"
+	$CreditsLabel.text = ""
 	if blueprint:
 		_update_credits_text()
 		for index in range(0, blueprint.layers.size()):
 			var meta := (blueprint.layers[index] as LPCSpriteBlueprintLayer)
 			var format_string = '[cell]{z}[/cell] [cell]{t}[/cell] [cell][url={url}]{rp}[/url][/cell]\n'
-			$LayersList.bbcode_text += format_string.format({"z":meta.zorder, "t":meta.type_name, "rp":meta.rel_path, "url":meta.rel_path})
+			$LayersList.text += format_string.format({"z":meta.zorder, "t":meta.type_name, "rp":meta.rel_path, "url":meta.rel_path})
 			
-	$LayersList.bbcode_text += "[/table]"
+	$LayersList.text += "[/table]"
 
 func _set_animation(animname : String):
 	for sprite in $vpc/vp.get_children():
@@ -78,34 +85,38 @@ func _download_spritesheets_from_web(base_url : String, layers : Array):
 	var downloaded_files = []
 	for layer in layers:
 		var local_path = dst_base_path + layer["fileName"]
-		if not File.new().file_exists(local_path):
+		if not FileAccess.file_exists(local_path):
 			var layer_web_url = base_url + layer["fileName"]
-			var dir = Directory.new()
+			var dir = DirAccess.open(dst_base_path)
 			dir.make_dir_recursive(local_path.get_base_dir())
 			http_node.download_file = local_path
 			http_node.request(layer_web_url)
-			yield(http_node, "request_completed")
+			await http_node.request_completed
 			downloaded_files.push_back(local_path)
 	
-	yield(get_tree(), "idle_frame")
+
+	await get_tree().process_frame
 	if downloaded_files.size() > 0:
-		var filesystem := editor_interface.get_resource_filesystem()
+		var filesystem := EditorInterface.get_resource_filesystem()
 		print("Rescan..")
 		filesystem.scan()
-		yield(filesystem, "resources_reimported")
+		await filesystem.resources_reimported
 		print(".. rescan finished!")
-		yield(get_tree(), "idle_frame")
+		await get_tree().process_frame
 		
 	emit_signal("_web_files_downloaded")
 
 func _on_ButtonImport_pressed():
-	var clipboard_content := OS.get_clipboard()
-	var jsonResult := JSON.parse(clipboard_content)
-	if jsonResult.error == OK and jsonResult.result is Dictionary:
-		var data : Dictionary = jsonResult.result
+	var clipboard_content:String = DisplayServer.clipboard_get()
+	
+	var test_json_conv = JSON.new()
+	var jsonError = test_json_conv.parse(clipboard_content)
+	var jsonResult = test_json_conv.data
+	if jsonError == OK and jsonResult is Dictionary:
+		var data : Dictionary = jsonResult
 		_download_spritesheets_from_web(data["spritesheets"], data["layers"])
 		print("Wait for downlaods..")
-		yield(self, "_web_files_downloaded")
+		await self._web_files_downloaded
 		print(".. download finished!")
 		var new_layers = []
 		for layer in data["layers"]:
@@ -132,7 +143,7 @@ func _on_ButtonImport_pressed():
 			
 		blueprint.layers.clear()
 		blueprint.add_layers(new_layers)
-		yield(get_tree(), "idle_frame")
+		await get_tree().idle_frame
 		blueprint.source_url = data["url"]
 		blueprint.credits_txt = str(data["credits"])
 
@@ -152,8 +163,8 @@ func _on_LayersList_meta_clicked(meta):
 		for layer in layers:
 			var bp_layer = ((layer as LPCSpriteLayer).blueprint_layer as LPCSpriteBlueprintLayer)
 			if bp_layer.rel_path == meta:
-				tween.tween_method(layer, "set_highlight", Color(1,1,1,1), Color(0,0,0,0), 0.5)
-				tween.tween_method(layer, "set_outline", Color(1,0,0,1), Color(1,0,0,0), 0.5)
+				tween.tween_method(Callable(layer, "set_highlight"), Color(1,1,1,1), Color(0,0,0,0), 0.5)
+				tween.tween_method(Callable(layer, "set_outline"), Color(1,0,0,1), Color(1,0,0,0), 0.5)
 
 
 func _on_ReplayButton_pressed():

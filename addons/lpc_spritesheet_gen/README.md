@@ -30,8 +30,7 @@ The work flow is as simple as:
   - use `set_anim()` so set an ainimation
   - use `animate_movement()` to make LPCSprite pick an animation based on your motion vector
   - react to signal `"animation_climax"` to e.g. deal damage at the climax point of an animation
-  - use `get_layers()` and functions like `set_glow()` or `set_highlight()` to animate the material of some layers<br>
-  ![](docs/Screenshot_layer_effects.png)
+  - use `get_layers()` and functions like `set_glow()` or `set_highlight()` to animate the material of some layers
 
 ![](Screenshot_Demo.png)
 

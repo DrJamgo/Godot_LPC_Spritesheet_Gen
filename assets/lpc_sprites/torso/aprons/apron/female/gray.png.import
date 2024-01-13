@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cb0gaw7h6v4t1"
-path="res://.godot/imported/icon_save-arrow.png-70b148feb53fc9aca47affc95cc73106.ctex"
+uid="uid://q1m1fc0kocuu"
+path="res://.godot/imported/gray.png-0850e834f311120fb693225672ce49a1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/lpc_spritesheet_gen/internal/icon_save-arrow.png"
-dest_files=["res://.godot/imported/icon_save-arrow.png-70b148feb53fc9aca47affc95cc73106.ctex"]
+source_file="res://assets/lpc_sprites/torso/aprons/apron/female/gray.png"
+dest_files=["res://.godot/imported/gray.png-0850e834f311120fb693225672ce49a1.ctex"]
 
 [params]
 

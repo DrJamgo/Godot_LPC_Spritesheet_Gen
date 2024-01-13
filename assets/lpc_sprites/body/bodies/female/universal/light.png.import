@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cb0gaw7h6v4t1"
-path="res://.godot/imported/icon_save-arrow.png-70b148feb53fc9aca47affc95cc73106.ctex"
+uid="uid://goqutp73h536"
+path="res://.godot/imported/light.png-fa86770718b6d41ee5a7a636cfe1520f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/lpc_spritesheet_gen/internal/icon_save-arrow.png"
-dest_files=["res://.godot/imported/icon_save-arrow.png-70b148feb53fc9aca47affc95cc73106.ctex"]
+source_file="res://assets/lpc_sprites/body/bodies/female/universal/light.png"
+dest_files=["res://.godot/imported/light.png-fa86770718b6d41ee5a7a636cfe1520f.ctex"]
 
 [params]
 

@@ -1,20 +1,29 @@
+@tool
 ## Copyright (C) 2023 Denis Selensky - All Rights Reserved
 ## You may use, distribute and modify this code under the terms of the MIT license
 
-tool
 extends Resource
 class_name LPCSpriteBlueprintLayer
 
-export(int) var zorder := 10
-export(String) var body := "male"     # Type of Body
-export(String) var name := "Template" # From JSON Data
-export(String) var type_name := "body" # From JSON Data
-export(String) var oversize_animation = null
-export(String) var variant = "0" # From Selection
-export(String) var abs_path := ""
-export(String) var rel_path := ""
-export(Texture) var texture setget ,get_texture
-export(Material) var material = preload("../lpc_layers_material_shader.tres") setget _set_material
+@export var zorder := 10
+@export var body := "male"     # Type of Body
+@export var name := "Template" # From JSON Data
+@export var type_name := "body" # From JSON Data
+@export var oversize_animation: String = ""
+@export var variant: String = "0" # From Selection
+@export var abs_path := ""
+@export var rel_path := ""
+
+@export var texture: Texture2D: 
+	get: 
+		if !texture:
+			load_texture()
+		return texture
+
+@export var material: Material = preload("../lpc_layers_material_shader.tres"): 
+	set(new_material):
+		material = new_material
+		emit_changed()
 
 func _set_material(new_material : Material):
 	material = new_material

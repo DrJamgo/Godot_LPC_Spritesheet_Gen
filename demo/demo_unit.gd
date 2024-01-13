@@ -5,7 +5,7 @@ extends Node2D
 
 var attacking = false
 var facing_direction : Vector2
-export(NodePath) var skeleton_node
+@export var skeleton_node: NodePath
 
 func _on_animation_climax(animation_name):
 	if animation_name == "slash":
@@ -13,7 +13,7 @@ func _on_animation_climax(animation_name):
 		var tween = get_tree().create_tween()
 		tween.set_parallel()
 		for layer in weapon_layers:
-			tween.tween_method(layer, "set_glow", Color(1,0,0,1), Color(1,0,0,0), 0.5)
+			tween.tween_method(Callable(layer, "set_glow"), Color(1,0,0,1), Color(1,0,0,0), 0.5)
 			
 		var skeletton = get_node(skeleton_node) as Node2D
 		var relative_position_to_skeleton : Vector2 = (skeletton.global_position - global_position)
@@ -23,12 +23,12 @@ func _on_animation_climax(animation_name):
 			skeletton.hurt()
 
 func _ready():
-	$LPCSprite.connect("animation_climax", self, "_on_animation_climax")
+	$LPCSprite.connect("animation_climax", Callable(self, "_on_animation_climax"))
 
 func _play_and_wait(anim_name : String):
 	attacking = true
 	$LPCSprite.set_anim(anim_name)
-	yield($LPCSprite, "animation_finished")
+	await $LPCSprite.animation_finished
 	attacking = false
 
 func _process(delta):
@@ -40,11 +40,11 @@ func _process(delta):
 		if velocity.length() > 1.0:
 			if velocity.length() < 16.0:
 				velocity = velocity.normalized() * 16.0
-			velocity = velocity.clamped(96.0)
+			velocity = velocity.limit_length(96.0)
 			position += velocity * delta
 			$LPCSprite.animate_movement(velocity)
 		else:
 			$LPCSprite.set_anim("idle")
 			
-		if Input.is_mouse_button_pressed(BUTTON_LEFT):
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			_play_and_wait("slash")

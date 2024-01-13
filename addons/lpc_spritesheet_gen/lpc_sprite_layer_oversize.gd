@@ -1,7 +1,7 @@
+@tool
 ## Copyright (C) 2023 Denis Selensky - All Rights Reserved
 ## You may use, distribute and modify this code under the terms of the MIT license
 
-tool
 extends LPCSpriteLayer
 class_name LPCSpriteLayerOversize
 
@@ -11,7 +11,7 @@ const _offsets := {
 }
 
 func _init():
-	._init()
+	super._init()
 	offset = -Vector2(64,64)
 	region_rect = Rect2(0,0,192,192)
 

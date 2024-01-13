@@ -1,9 +1,11 @@
+
 ## Copyright (C) 2023 Denis Selensky - All Rights Reserved
 ## You may use, distribute and modify this code under the terms of the MIT license
+@icon("internal/lpc_icon.png")
+@tool
 
-tool
-class_name LPCSprite, "internal/lpc_icon.png"
-extends AnimatedSprite
+class_name LPCSprite extends AnimatedSprite2D
+
 ##
 ## This Class can be used to display an animated LPC character spritesheet
 ## It uses a LPCSpriteBlueprint as "frames" property
@@ -22,12 +24,25 @@ extends AnimatedSprite
 ## Note: use animation_finished signal to react to a completed animation
 signal animation_climax(animname)
 
-export(String, 'down','left','up','right') var dir = 'down' setget set_dir
-export(String, 'idle', 'walk', 'stride', 'jog', 'cast', 'slash', 'thrust', 'hurt') var anim = 'idle' setget set_anim
+@export var dir = 'down': 
+	set(direction):
+		if typeof(direction) == TYPE_VECTOR2:
+			direction = _angle_to_dir(direction.angle())
+		dir = direction
+		_update_animation()
+
+@export var anim = 'idle': 
+	set(_animation_name):
+		frame = 0
+		play()
+		if anim != _animation_name:
+			anim = _animation_name
+			speed_scale = 1.0
+		_update_animation()
 
 ## If enabled: three animations (based on speed) are used: walk, stride, jog
 ## If disabled: only 'walk' is used with varying animation speed
-export(bool) var stride_jog_enabled = false
+@export var stride_jog_enabled: bool = false
 
 var _last_frames
 const _walk_anim_names = ['walk', 'stride', 'jog']
@@ -40,32 +55,32 @@ func _init():
 
 ## Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if _last_frames and _last_frames != frames:
+	if _last_frames and _last_frames != sprite_frames:
 		# reconnect if frames object changed (needed for editor)
-		_last_frames.disconnect("changed", self, "_reload_layers_from_blueprint")
-		frames.connect("changed", self, "_reload_layers_from_blueprint")
+		_last_frames.disconnect("changed", Callable(self, "_reload_layers_from_blueprint"))
+		sprite_frames.connect("changed", Callable(self, "_reload_layers_from_blueprint"))
 		call_deferred("_reload_layers_from_blueprint")
-	_last_frames = frames
+	_last_frames = sprite_frames
 	_update_animation()
 
 
 func _enter_tree():
-	if frames:
-		frames.connect("changed", self, "_reload_layers_from_blueprint")
-	connect("frame_changed", self, "_on_LPCSprite_frame_changed")
+	if sprite_frames:
+		sprite_frames.connect("changed", Callable(self, "_reload_layers_from_blueprint"))
+	connect("frame_changed", Callable(self, "_on_LPCSprite_frame_changed"))
 	_reload_layers_from_blueprint()
 	
 	
 func _exit_tree():
-	if frames:
-		frames.disconnect("changed", self, "_reload_layers_from_blueprint")
-	disconnect("frame_changed", self, "_on_LPCSprite_frame_changed")
+	if sprite_frames:
+		sprite_frames.disconnect("changed", Callable(self, "_reload_layers_from_blueprint"))
+	disconnect("frame_changed", Callable(self, "_on_LPCSprite_frame_changed"))
 
 
-func _get_configuration_warning() -> String:
-	if not (frames as LPCSpriteBlueprint):
-		return "'frames' property must be of type LPCSpriteBlueprint"
-	return ""
+func _get_configuration_warnings() -> PackedStringArray:
+	if not (sprite_frames as LPCSpriteBlueprint):
+		return PackedStringArray(["'sprite_frames' property must be of type LPCSpriteBlueprint"])
+	return PackedStringArray([])
 
 ## Set direction by providing either:
 ## - Vector2 (any direction)
@@ -88,7 +103,7 @@ func set_dir(direction):
 ## - hurt
 func set_anim(_animation_name : String):
 	frame = 0
-	playing = true
+	play()
 	if anim != _animation_name:
 		anim = _animation_name
 		speed_scale = 1.0
@@ -97,7 +112,7 @@ func set_anim(_animation_name : String):
 # Takes velocity vector and chooses correct animation from it
 # Note: 32px/s is 
 func animate_movement(velocity : Vector2):
-	set_dir(velocity)
+	dir = velocity
 	if velocity.length() > 0:
 		var speed := velocity.length()
 		if stride_jog_enabled:
@@ -127,7 +142,7 @@ func get_layers(type_filter : Array = []) -> Array:
 	var layers_of_type = []
 	for child in get_children():
 		if child as LPCSpriteLayer:
-			if type_filter.empty() or child.blueprint_layer.type_name in type_filter:
+			if type_filter.is_empty() or child.blueprint_layer.type_name in type_filter:
 				layers_of_type.append(child)
 	return layers_of_type
 
@@ -147,11 +162,12 @@ func _add_layers(layers : Array) -> Array:
 
 
 func _reload_layers_from_blueprint():
-	for child in get_children():
-		if child as LPCSpriteLayer:
+	var children = get_children()
+	for child in children:
+		if (child as LPCSpriteLayer):
 			remove_child(child)
 			child.queue_free()
-	var blueprint : LPCSpriteBlueprint = frames
+	var blueprint : LPCSpriteBlueprint = sprite_frames
 	var has_layers = false
 	for layer in blueprint.layers:
 		var sprite = _add_layer_sprite(layer)
@@ -161,8 +177,8 @@ func _reload_layers_from_blueprint():
 	_on_LPCSprite_frame_changed()
 
 
-func _add_layer_sprite(layer : LPCSpriteBlueprintLayer) -> Sprite:
-	var new_sprite = LPCSpriteLayer.new() if (layer.oversize_animation == null) else LPCSpriteLayerOversize.new()
+func _add_layer_sprite(layer : LPCSpriteBlueprintLayer) -> Sprite2D:
+	var new_sprite = LPCSpriteLayer.new() if (layer.oversize_animation == "") else LPCSpriteLayerOversize.new()
 	new_sprite.set_atlas(layer.texture)
 	new_sprite.unique_name_in_owner = false
 	new_sprite.set_name(layer.type_name)
@@ -170,9 +186,9 @@ func _add_layer_sprite(layer : LPCSpriteBlueprintLayer) -> Sprite:
 	new_sprite.centered = centered
 	new_sprite.blueprint_layer = layer
 	new_sprite.material = layer.material.duplicate()
-	new_sprite.texture.flags = Texture.FLAG_MIPMAPS
+	#new_sprite.texture.flags = Texture2D.FLAG_MIPMAPS
 	add_child(new_sprite)
-	(frames as LPCSpriteBlueprint)._set_atlas(null)
+	(sprite_frames as LPCSpriteBlueprint)._set_atlas(null)
 	return new_sprite
 
 
@@ -195,13 +211,14 @@ func _update_animation():
 	var anim_name = anim + "_" + dir
 	if animation != anim_name:
 		if anim == 'hurt':
-			dir = 'down' # 'hurt' is always 'down'
-			anim_name = 'hurt_down'
-		if frames and frames.has_animation(anim_name):
+			if dir != 'down':
+				dir = 'down' # 'hurt' is always 'down'
+				anim_name = 'hurt_down'
+		if sprite_frames and sprite_frames.has_animation(anim_name):
 			# This mess is an attempt to blend stride animations changes better together
 			if anim in _walk_anim_names and animation.split("_")[0] in _walk_anim_names:
-				var factor : float = float(frame) / float(frames.get_frame_count(animation))
-				var index := int(round(factor * float(frames.get_frame_count(anim_name))))
+				var factor : float = float(frame) / float(sprite_frames.get_frame_count(animation))
+				var index := int(round(factor * float(sprite_frames.get_frame_count(anim_name))))
 				animation = anim_name
 				frame = index
 			else:
@@ -210,9 +227,9 @@ func _update_animation():
 
 
 func _on_LPCSprite_frame_changed():
-	var blueprint : LPCSpriteBlueprint = (frames as LPCSpriteBlueprint)
+	var blueprint : LPCSpriteBlueprint = (sprite_frames as LPCSpriteBlueprint)
 	if blueprint:
-		var tex = blueprint.get_frame(self.animation, self.frame)
+		var tex = blueprint.get_frame_texture(self.animation, self.frame)
 		for child in get_children():
 			if child as LPCSpriteLayer:
 				child.copy_atlas_rects(tex)

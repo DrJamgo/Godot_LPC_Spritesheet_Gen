@@ -1,14 +1,16 @@
+@tool
 ## Copyright (C) 2023 Denis Selensky - All Rights Reserved
 ## You may use, distribute and modify this code under the terms of the MIT license
+@icon('internal/lpc_icon_spec.png')
 
-tool
 extends SpriteFrames
-class_name LPCSpriteBlueprint, 'internal/lpc_icon_spec.png'
+class_name LPCSpriteBlueprint
 
-export(Array, Resource) var layers 
-export(String) var resources_url : String
-export(String) var source_url : String
-export(String, MULTILINE) var credits_txt : String
+
+@export var layers: Array[LPCSpriteBlueprintLayer]
+@export var resources_url: String
+@export var source_url: String
+@export var credits_txt : String # (String, MULTILINE)
 
 func _on_layer_changed():
 	emit_changed()
@@ -30,7 +32,7 @@ func add_layers(_layers : Array):
 		var index = _get_index_by_z(layer.zorder)
 		layerPos.append(index)
 		layers.insert(index, layer)
-		layer.connect("changed", self, "_on_layer_changed")
+		layer.connect("changed", Callable(self, "_on_layer_changed"))
 	_set_atlas(null) # << clear default texture atlas
 	emit_changed()
 	return layerPos
@@ -42,12 +44,12 @@ func get_textures():
 	return list
 
 func remove_layer(index : int):
-	layers.remove(index)
+	layers.erase(index)
 	emit_changed()
 	
-func _set_atlas(atlas : Texture):
-	for anim in animations:
-		for idx in range(0, get_frame_count(anim.name)):
-			var frame = anim.frames[idx].duplicate()
+func _set_atlas(atlas : Texture2D):
+	for anim in get_animation_names():
+		for idx in get_frame_count(anim):
+			var frame = get_frame_texture(anim,idx).duplicate()
 			frame.atlas = atlas
-			set_frame(anim.name, idx, frame)
+			set_frame(anim, idx, frame)

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cb0gaw7h6v4t1"
-path="res://.godot/imported/icon_save-arrow.png-70b148feb53fc9aca47affc95cc73106.ctex"
+uid="uid://5wt577qc86h4"
+path="res://.godot/imported/Screenshot_layer_effects.png-15c2ceaa777b6276dc8e0756744a9d13.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/lpc_spritesheet_gen/internal/icon_save-arrow.png"
-dest_files=["res://.godot/imported/icon_save-arrow.png-70b148feb53fc9aca47affc95cc73106.ctex"]
+source_file="res://addons/lpc_spritesheet_gen/docs/Screenshot_layer_effects.png"
+dest_files=["res://.godot/imported/Screenshot_layer_effects.png-15c2ceaa777b6276dc8e0756744a9d13.ctex"]
 
 [params]
 
